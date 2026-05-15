@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0f172a">
+    <title>KONFÍO ZINC | Tarjeta Digital Premium</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            max-width: 380px;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        .glass-modal {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #38bdf8, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .btn-gradient {
+            background: linear-gradient(135deg, #0ea5e9, #6366f1);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+        }
+        .btn-gradient:active {
+            transform: scale(0.97);
+        }
+        .icon-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+        .icon-box:active {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(0.95);
+        }
+
+        .profile-banner {
+            position: relative;
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+        }
+        .profile-banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 25%;
+        }
+        .profile-banner::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: linear-gradient(to top, rgba(15, 23, 42, 1) 0%, rgba(15, 23, 42, 0.6) 60%, transparent 100%);
+        }
+
+        .logo-3d {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            z-index: 10;
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            object-fit: cover;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(8px);
+            padding: 4px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), 0 0 0 2px rgba(255, 255, 255, 0.3);
+            transform: perspective(600px) rotateY(-6deg) rotateX(4deg);
+        }
+
+        @keyframes ripple-expand {
+            0% { transform: scale(0.9); opacity: 0.8; }
+            100% { transform: scale(1.6); opacity: 0; }
+        }
+        .ripple-container { position: relative; display: inline-flex; align-items: center; justify-content: center; }
+        .social-ripple::before {
+            content: ''; position: absolute; border-radius: 50%; pointer-events: none; z-index: 0;
+            width: 100%; height: 100%; animation: ripple-expand 1.8s ease-out infinite;
+        }
+
+        .card-wrapper { position: relative; }
+        .whatsapp-float {
+            position: absolute;
+            bottom: 20px; right: 20px;
+            z-index: 10;
+            width: 52px; height: 52px;
+            border-radius: 50%;
+            background: #25D366;
+            color: white;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 26px;
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5);
+            text-decoration: none;
+        }
+        .whatsapp-pulse-ring {
+            position: absolute; bottom: 20px; right: 20px; z-index: 9;
+            width: 52px; height: 52px; border-radius: 50%; pointer-events: none;
+        }
+        .whatsapp-pulse-ring::before {
+            content: ''; position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%); border-radius: 50%;
+            border: 2px solid #25D366;
+            animation: whatsapp-pulse 2s ease-out infinite;
+        }
+        @keyframes whatsapp-pulse {
+            0% { width: 52px; height: 52px; opacity: 0.8; }
+            100% { width: 100px; height: 100px; opacity: 0; }
+        }
+
+        .solicita-btn-wrapper { position: relative; display: inline-block; }
+        .solicita-btn-wrapper .btn-inner { position: relative; z-index: 1; }
+        .solicita-btn-wrapper::before {
+            content: ''; position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: calc(100% + 16px); height: calc(100% + 16px);
+            border-radius: 9999px; border: 2px solid rgba(99,102,241,0.5);
+            pointer-events: none; z-index: 0;
+            animation: ripple-expand-sol 2.2s ease-out infinite;
+        }
+        @keyframes ripple-expand-sol {
+            0% { width: calc(100% + 8px); height: calc(100% + 8px); opacity: 0.8; }
+            100% { width: calc(100% + 50px); height: calc(100% + 50px); opacity: 0; }
+        }
+
+        .call-btn-glow {
+            animation: call-glow 2s ease-in-out infinite;
+            background: rgba(34,197,94,0.15);
+            border: 1.5px solid rgba(34,197,94,0.5);
+        }
+        @keyframes call-glow {
+            0%, 100% { box-shadow: 0 0 8px rgba(34,197,94,0.4); }
+            50% { box-shadow: 0 0 18px rgba(34,197,94,0.7); }
+        }
+
+        .modal-overlay {
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-content {
+            transform: scale(0.9) translateY(20px);
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+        }
+        .modal-overlay.active .modal-content { transform: scale(1) translateY(0); opacity: 1; }
+
+        .carousel-container { position: relative; overflow: hidden; }
+        .carousel-track { display: flex; transition: transform 0.4s ease; }
+        .carousel-slide { min-width: 100%; padding: 0 4px; }
+        .carousel-slide img {
+            width: 100%;
+            height: auto;
+            max-height: 300px;
+            object-fit: contain;
+            background: #f1f5f9;
+            border-radius: 12px;
+        }
+        .carousel-dot {
+            width: 8px; height: 8px; border-radius: 50%; background: #cbd5e1;
+            cursor: pointer; transition: all 0.3s;
+        }
+        .carousel-dot.active { background: #6366f1; width: 20px; border-radius: 4px; }
+
+        .calendar-day { transition: all 0.2s; padding: 8px 0; }
+        .calendar-day:not(.disabled):active { background-color: #e0e7ff; }
+        .calendar-day.disabled { color: #cbd5e1; }
+        .calendar-day.today { background-color: #6366f1; color: white; font-weight: bold; }
+        .calendar-day.selected { background-color: #0ea5e9; color: white; }
+        .time-slot { transition: all 0.2s; border: 2px solid #e2e8f0; }
+        .time-slot.selected { background-color: #0ea5e9; color: white; border-color: #0ea5e9; }
+    </style>
+</head>
+<body>
+    <div class="w-full max-w-sm glass-card rounded-3xl shadow-2xl overflow-hidden border border-white/20 card-wrapper">
+
+        <div class="profile-banner">
+            <img src="https://i.postimg.cc/xCqnHvn0/Whats-App-Image-2026-05-10-at-14-38-29.jpg"
+                 alt="Logo KONFÍO ZINC"
+                 onerror="this.onerror=null;this.src='https://placehold.co/400x220/0f172a/38bdf8?text=KONF%C3%8DO+ZINC';">
+        </div>
+
+        <img src="https://i.postimg.cc/L8Ns16L1/Whats-App-Image-2026-05-10-at-14-52-22.jpg"
+             alt="Darwin Montalvo"
+             class="logo-3d"
+             onerror="this.onerror=null;this.src='https://placehold.co/52x52/1e293b/38bdf8?text=DM';">
+
+        <div class="relative -mt-10 pt-2 pb-6 px-5 text-center">
+            <h1 class="text-2xl font-bold text-white mt-2 tracking-tight">Darwin Montalvo</h1>
+            <p class="text-gradient text-lg font-semibold tracking-wider" style="font-family: 'Orbitron', sans-serif;">KONFÍO ZINC</p>
+            <p class="text-slate-300 text-sm mt-2 max-w-xs mx-auto">Tarjetas digitales inteligentes que transforman tu presencia profesional</p>
+
+            <div class="solicita-btn-wrapper mt-6">
+                <a href="https://wa.me/573206411340?text=Hola%20Darwin%2C%20quiero%20mi%20tarjeta%20digital%20personalizada"
+                   target="_blank"
+                   class="btn-gradient btn-inner inline-flex items-center justify-center px-8 py-3 rounded-full text-white font-bold text-lg gap-2 w-full">
+                    <i class="fas fa-magic"></i> Solicita tu tarjeta
+                </a>
+            </div>
+        </div>
+
+        <div class="px-6 pb-2">
+            <div class="flex justify-center gap-4">
+                <a href="https://www.facebook.com/profile.php?id=61589654555930" target="_blank"
+                   class="ripple-container social-ripple flex items-center justify-center w-10 h-10 rounded-full text-white text-lg"
+                   style="background: #1877F2; position: relative; z-index: 1;">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://www.instagram.com/konfiozinc?utm_source=qr&igsh=Y253bjNqOXM3Yjdn" target="_blank"
+                   class="ripple-container social-ripple flex items-center justify-center w-10 h-10 rounded-full text-white text-lg"
+                   style="background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); position: relative; z-index: 1;">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://www.tiktok.com/@konfiozinc?_r=1&_t=ZS-96N3Vmh92tJ" target="_blank"
+                   class="ripple-container social-ripple flex items-center justify-center w-10 h-10 rounded-full text-white text-lg"
+                   style="background: #000; border: 1.5px solid #ffffff33; position: relative; z-index: 1;">
+                    <i class="fab fa-tiktok"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="px-6 pb-4 mt-3">
+            <p class="text-slate-400 text-xs text-center mb-4">Toca los íconos para interactuar</p>
+            <div class="grid grid-cols-4 gap-3">
+                <a href="tel:+573206411340"
+                   class="icon-box call-btn-glow flex flex-col items-center justify-center p-3 rounded-xl text-white text-center">
+                    <i class="fas fa-phone-alt text-2xl mb-1 text-green-400"></i>
+                    <span class="text-[10px]">Llamar</span>
+                </a>
+                <button id="agenda-btn"
+                        class="icon-box flex flex-col items-center justify-center p-3 rounded-xl text-white text-center cursor-pointer">
+                    <i class="fas fa-calendar-alt text-2xl mb-1 text-orange-400"></i>
+                    <span class="text-[10px]">Agenda tu cita</span>
+                </button>
+                <a href="mailto:confiotv@gmail.com"
+                   class="icon-box flex flex-col items-center justify-center p-3 rounded-xl text-white text-center">
+                    <i class="fas fa-envelope text-2xl mb-1 text-amber-400"></i>
+                    <span class="text-[10px]">Correo</span>
+                </a>
+                <button id="portfolio-btn"
+                        class="icon-box flex flex-col items-center justify-center p-3 rounded-xl text-white text-center cursor-pointer">
+                    <i class="fas fa-images text-2xl mb-1 text-purple-400"></i>
+                    <span class="text-[10px]">Portafolio</span>
+                </button>
+                <button id="services-btn"
+                        class="icon-box flex flex-col items-center justify-center p-3 rounded-xl text-white text-center cursor-pointer">
+                    <i class="fas fa-list-check text-2xl mb-1 text-cyan-400"></i>
+                    <span class="text-[10px]">Servicios</span>
+                </button>
+                <button id="qr-btn"
+                        class="icon-box flex flex-col items-center justify-center p-3 rounded-xl text-white text-center cursor-pointer">
+                    <i class="fas fa-qrcode text-2xl mb-1 text-teal-400"></i>
+                    <span class="text-[10px]">QR</span>
+                </button>
+                <button id="save-btn"
+                        class="icon-box flex flex-col items-center justify-center p-3 rounded-xl text-white text-center cursor-pointer">
+                    <i class="fas fa-address-card text-2xl mb-1 text-pink-400"></i>
+                    <span class="text-[10px]">Guardar</span>
+                </button>
+                <button id="install-btn"
+                        class="icon-box flex flex-col items-center justify-center p-3 rounded-xl text-white text-center cursor-pointer">
+                    <i class="fas fa-mobile-screen-button text-2xl mb-1 text-indigo-400"></i>
+                    <span class="text-[10px]">Instalar</span>
+                </button>
+            </div>
+            <div class="mt-3 text-center">
+                <button id="video-btn"
+                        class="icon-box inline-flex items-center gap-2 px-4 py-2 rounded-full text-white text-sm cursor-pointer">
+                    <i class="fas fa-play"></i> Ver Video Promocional
+                </button>
+            </div>
+        </div>
+
+        <div class="border-t border-white/10 px-6 py-4 text-center">
+            <p class="text-slate-400 text-xs">© 2025 KONFÍO ZINC · Transformamos contactos en experiencias</p>
+        </div>
+
+        <a href="https://wa.me/573206411340?text=Hola%20Darwin%2C%20quiero%20mi%20tarjeta%20digital%20personalizada"
+           target="_blank"
+           class="whatsapp-float"
+           aria-label="WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+        <div class="whatsapp-pulse-ring"></div>
+    </div>
+
+    <!-- ==================== MODALES ==================== -->
+    <div id="portfolio-modal" class="modal-overlay fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 opacity-0 invisible" style="display:none;">
+        <div class="modal-content glass-modal rounded-2xl w-full max-w-lg max-h-[90vh] overflow-hidden flex flex-col">
+            <div class="p-4 border-b flex justify-between items-center bg-gradient-to-r from-sky-500 to-indigo-600 text-white rounded-t-2xl">
+                <h3 class="font-bold text-lg"><i class="fas fa-images mr-2"></i>Nuestro Portafolio</h3>
+                <button class="modal-close text-white hover:text-slate-200 text-2xl leading-none">&times;</button>
+            </div>
+            <div class="p-4 overflow-y-auto flex-grow">
+                <p class="text-slate-600 text-sm mb-4 text-center">8 plantillas profesionales. Toca para ver ampliada.</p>
+                <div class="carousel-container relative">
+                    <div class="carousel-track" id="carousel-track"></div>
+                    <button id="prev-slide" class="absolute top-1/2 left-2 -translate-y-1/2 bg-white/90 rounded-full w-9 h-9 flex items-center justify-center shadow hover:bg-white z-10"><i class="fas fa-chevron-left text-slate-700"></i></button>
+                    <button id="next-slide" class="absolute top-1/2 right-2 -translate-y-1/2 bg-white/90 rounded-full w-9 h-9 flex items-center justify-center shadow hover:bg-white z-10"><i class="fas fa-chevron-right text-slate-700"></i></button>
+                </div>
+                <div id="carousel-dots" class="flex justify-center gap-2 mt-4"></div>
+                <div class="text-center mt-4">
+                    <button id="view-full-image" class="text-sm text-indigo-600 hover:underline">Ver imagen completa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="full-image-modal" class="modal-overlay fixed inset-0 bg-black/90 flex items-center justify-center z-[60] opacity-0 invisible" onclick="this.classList.remove('active')" style="display:none;">
+        <img id="full-image" src="" class="max-w-full max-h-full rounded-lg shadow-2xl" alt="Vista ampliada">
+    </div>
+
+    <div id="services-modal" class="modal-overlay fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 opacity-0 invisible" style="display:none;">
+        <div class="modal-content glass-modal rounded-2xl w-full max-w-md max-h-[90vh] overflow-y-auto">
+            <div class="p-4 border-b flex justify-between items-center bg-gradient-to-r from-sky-500 to-indigo-600 text-white rounded-t-2xl sticky top-0 z-10">
+                <h3 class="font-bold text-lg"><i class="fas fa-list-check mr-2"></i>Servicios</h3>
+                <button class="modal-close text-white hover:text-slate-200 text-2xl leading-none">&times;</button>
+            </div>
+            <div class="p-4 space-y-4">
+                <div class="flex gap-3 p-3 bg-slate-50 rounded-xl">
+                    <i class="fas fa-id-card text-2xl text-sky-500 mt-1"></i>
+                    <div><h4 class="font-semibold text-slate-800">Tarjeta Básica</h4><p class="text-sm text-slate-600">Datos esenciales y redes sociales.</p><span class="text-sky-600 font-bold">Desde $70.000 COP</span></div>
+                </div>
+                <div class="flex gap-3 p-3 bg-slate-50 rounded-xl">
+                    <i class="fas fa-briefcase text-2xl text-indigo-500 mt-1"></i>
+                    <div><h4 class="font-semibold text-slate-800">Tarjeta Profesional</h4><p class="text-sm text-slate-600">Galería, WhatsApp, QR, ubicación.</p><span class="text-sky-600 font-bold">Desde $120.000 COP</span></div>
+                </div>
+                <div class="flex gap-3 p-3 bg-slate-50 rounded-xl">
+                    <i class="fas fa-gem text-2xl text-purple-500 mt-1"></i>
+                    <div><h4 class="font-semibold text-slate-800">Tarjeta Premium</h4><p class="text-sm text-slate-600">Agendamiento, animaciones avanzadas.</p><span class="text-sky-600 font-bold">Desde $170.000 COP</span></div>
+                </div>
+                <div class="flex gap-3 p-3 bg-slate-50 rounded-xl">
+                    <i class="fas fa-utensils text-2xl text-amber-500 mt-1"></i>
+                    <div><h4 class="font-semibold text-slate-800">Menú Digital</h4><p class="text-sm text-slate-600">Restaurantes: carta interactiva.</p><span class="text-sky-600 font-bold">Desde $150.000 COP</span></div>
+                </div>
+                <div class="flex gap-3 p-3 bg-slate-50 rounded-xl">
+                    <i class="fas fa-rocket text-2xl text-rose-500 mt-1"></i>
+                    <div><h4 class="font-semibold text-slate-800">Mini Landing Page</h4><p class="text-sm text-slate-600">Scroll completo, video, testimonios.</p><span class="text-sky-600 font-bold">Desde $350.000 COP</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="qr-modal" class="modal-overlay fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 opacity-0 invisible" style="display:none;">
+        <div class="modal-content glass-modal rounded-2xl p-6 text-center max-w-xs w-full">
+            <button class="modal-close absolute top-3 right-3 text-slate-500 hover:text-slate-800 text-2xl">&times;</button>
+            <h3 class="font-bold text-lg text-slate-800 mb-2">Escanea y comparte</h3>
+            <div id="qrcode-container" class="flex justify-center mb-4 bg-white p-2 rounded-xl inline-block mx-auto"></div>
+            <p class="text-sm text-slate-600">Apunta la cámara de tu móvil a este código.</p>
+            <button id="native-share-btn" class="btn-gradient mt-4 w-full py-2 rounded-lg text-white font-semibold hidden">
+                <i class="fas fa-share-alt mr-2"></i>Compartir ahora
+            </button>
+        </div>
+    </div>
+
+    <div id="install-modal" class="modal-overlay fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 opacity-0 invisible" style="display:none;">
+        <div class="modal-content glass-modal rounded-2xl w-full max-w-md max-h-[90vh] overflow-y-auto">
+            <div class="p-4 border-b flex justify-between items-center bg-gradient-to-r from-sky-500 to-indigo-600 text-white rounded-t-2xl sticky top-0 z-10">
+                <h3 class="font-bold text-lg"><i class="fas fa-download mr-2"></i>Instalar en tu móvil</h3>
+                <button class="modal-close text-white hover:text-slate-200 text-2xl leading-none">&times;</button>
+            </div>
+            <div class="p-4 space-y-4 text-slate-700">
+                <div class="bg-slate-50 p-4 rounded-xl">
+                    <h4 class="font-semibold text-sky-700"><i class="fab fa-apple"></i> iOS (Safari)</h4>
+                    <ol class="list-decimal ml-5 text-sm mt-2 space-y-1">
+                        <li>Toca <strong>Compartir</strong> <i class="fas fa-share-square"></i></li>
+                        <li>Selecciona <strong>"Añadir a pantalla de inicio"</strong></li>
+                        <li>Confirma con <strong>"Añadir"</strong></li>
+                    </ol>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-xl">
+                    <h4 class="font-semibold text-sky-700"><i class="fab fa-android"></i> Android (Chrome)</h4>
+                    <ol class="list-decimal ml-5 text-sm mt-2 space-y-1">
+                        <li>Toca los <strong>tres puntos</strong> <i class="fas fa-ellipsis-v"></i></li>
+                        <li>Selecciona <strong>"Instalar aplicación"</strong></li>
+                        <li>Confirma la instalación</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="agenda-modal" class="modal-overlay fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 opacity-0 invisible" style="display:none;">
+        <div class="modal-content glass-modal rounded-2xl w-full max-w-md max-h-[95vh] overflow-hidden flex flex-col">
+            <div class="p-4 border-b flex justify-between items-center bg-gradient-to-r from-orange-500 to-amber-600 text-white rounded-t-2xl">
+                <h3 class="font-bold text-lg"><i class="fas fa-calendar-alt mr-2"></i>Agenda tu Cita</h3>
+                <button class="modal-close text-white hover:text-slate-200 text-2xl leading-none">&times;</button>
+            </div>
+            <div id="agenda-content" class="p-4 overflow-y-auto flex-grow"></div>
+        </div>
+    </div>
+
+    <div id="video-modal" class="modal-overlay fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 opacity-0 invisible" style="display:none;">
+        <div class="modal-content glass-modal rounded-2xl w-full max-w-2xl overflow-hidden">
+            <div class="p-4 border-b flex justify-between items-center bg-gradient-to-r from-sky-500 to-indigo-600 text-white">
+                <h3 class="font-bold text-lg"><i class="fas fa-play mr-2"></i>Video Promocional</h3>
+                <button class="modal-close text-white hover:text-slate-200 text-2xl leading-none">&times;</button>
+            </div>
+            <div class="relative aspect-video bg-slate-800">
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/ndRhGLFUlLA"
+                        title="Video KONFÍO ZINC" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen class="absolute inset-0 w-full h-full"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const TU_WHATSAPP = '573206411340';
+
+            function setupModal(openBtnId, modalId) {
+                const openBtn = document.getElementById(openBtnId);
+                const modal = document.getElementById(modalId);
+                if (!openBtn || !modal) return;
+                const closeBtn = modal.querySelector('.modal-close');
+                const open = () => {
+                    modal.style.display = 'flex';
+                    setTimeout(() => modal.classList.add('active'), 10);
+                    document.body.style.overflow = 'hidden';
+                    if (modalId === 'agenda-modal') resetAgenda();
+                };
+                const close = () => {
+                    modal.classList.remove('active');
+                    setTimeout(() => { modal.style.display = 'none'; }, 300);
+                    document.body.style.overflow = '';
+                };
+                openBtn.addEventListener('click', open);
+                closeBtn.addEventListener('click', close);
+                modal.addEventListener('click', e => { if (e.target === modal) close(); });
+            }
+            setupModal('portfolio-btn', 'portfolio-modal');
+            setupModal('services-btn', 'services-modal');
+            setupModal('qr-btn', 'qr-modal');
+            setupModal('install-btn', 'install-modal');
+            setupModal('agenda-btn', 'agenda-modal');
+            setupModal('video-btn', 'video-modal');
+
+            const portfolioImages = [
+                { src: 'https://i.postimg.cc/Jz6cCpC5/Whats-App-Image-2026-05-12-at-23-57-09.jpg', title: 'Dra. Isabela Rojas', sub: 'Odontóloga General y Estética Dental' },
+                { src: 'https://i.postimg.cc/3xSCQtQ2/Whats-App-Image-2026-05-12-at-23-57-09-(1).jpg', title: 'Dra. Sofía Rodríguez', sub: 'Nutricionista Profesional' },
+                { src: 'https://i.postimg.cc/pLGYMsMD/Whats-App-Image-2026-05-12-at-23-57-09-(2).jpg', title: 'Dra. Ana Pérez', sub: 'Nutricionista Funcional' },
+                { src: 'https://i.postimg.cc/K8qrh0hP/Whats-App-Image-2026-05-12-at-23-57-09-(3).jpg', title: 'Carolina Carelli', sub: 'Decoradora de Fiestas' },
+                { src: 'https://i.postimg.cc/dVHmc5cR/Whats-App-Image-2026-05-12-at-23-57-09-(4).jpg', title: 'Regina Pereira', sub: 'Nails y Academy' },
+                { src: 'https://i.postimg.cc/CxPHpcpN/Whats-App-Image-2026-05-12-at-23-57-10.jpg', title: 'Juan Pérez', sub: 'Diseñador Gráfico' },
+                { src: 'https://i.postimg.cc/SxT7bgbG/Whats-App-Image-2026-05-12-at-23-57-10-(1).jpg', title: 'Dulce Delicia', sub: 'Pastelería Artesanal' },
+                { src: 'https://i.postimg.cc/zGtSYxY7/Whats-App-Image-2026-05-12-at-23-57-10-(2).jpg', title: 'Dra. Amanda Méndez', sub: 'Odontopediatría · Ortodoncia · Estética Dental' }
+            ];
+
+            const track = document.getElementById('carousel-track');
+            const dotsContainer = document.getElementById('carousel-dots');
+            const prevBtn = document.getElementById('prev-slide');
+            const nextBtn = document.getElementById('next-slide');
+            let current = 0;
+            function buildCarousel() {
+                track.innerHTML = portfolioImages.map(img => `
+                    <div class="carousel-slide">
+                        <div class="bg-white rounded-xl overflow-hidden shadow-md flex flex-col items-center">
+                            <img src="${img.src}" alt="${img.title}" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1e293b/ffffff?text=Tarjeta';">
+                            <div class="p-4 text-center w-full">
+                                <span class="font-semibold text-slate-800 text-sm">${img.title}</span>
+                                <p class="text-xs text-slate-500">${img.sub}</p>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+                dotsContainer.innerHTML = portfolioImages.map((_, i) => `<span class="carousel-dot ${i===0?'active':''}" data-index="${i}"></span>`).join('');
+                dotsContainer.querySelectorAll('.carousel-dot').forEach(dot => {
+                    dot.addEventListener('click', () => { current = parseInt(dot.dataset.index); update(); });
+                });
+                update();
+            }
+            function update() {
+                track.style.transform = `translateX(-${current * 100}%)`;
+                dotsContainer.querySelectorAll('.carousel-dot').forEach((d, i) => d.classList.toggle('active', i === current));
+            }
+            nextBtn.addEventListener('click', () => { current = (current + 1) % portfolioImages.length; update(); });
+            prevBtn.addEventListener('click', () => { current = (current - 1 + portfolioImages.length) % portfolioImages.length; update(); });
+            buildCarousel();
+
+            document.getElementById('view-full-image').addEventListener('click', () => {
+                const fullModal = document.getElementById('full-image-modal');
+                const fullImg = document.getElementById('full-image');
+                fullImg.src = portfolioImages[current].src;
+                fullModal.style.display = 'flex';
+                setTimeout(() => fullModal.classList.add('active'), 10);
+            });
+            document.getElementById('full-image-modal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                    setTimeout(() => { this.style.display = 'none'; }, 300);
+                }
+            });
+
+            new QRCode(document.getElementById('qrcode-container'), {
+                text: window.location.href,
+                width: 150, height: 150,
+                colorDark: "#1e293b", colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+            const shareBtn = document.getElementById('native-share-btn');
+            if (navigator.share) {
+                shareBtn.classList.remove('hidden');
+                shareBtn.addEventListener('click', () => navigator.share({ title: 'KONFÍO ZINC', text: 'Tarjeta digital inteligente', url: window.location.href }));
+            }
+
+            document.getElementById('save-btn').addEventListener('click', () => {
+                const vCard = `BEGIN:VCARD\nVERSION:3.0\nFN:Darwin Montalvo\nORG:KONFÍO ZINC\nTITLE:Creador de Tarjetas Digitales\nTEL;TYPE=CELL:+57 320 641 1340\nEMAIL:confiotv@gmail.com\nURL:${window.location.href}\nEND:VCARD`;
+                const blob = new Blob([vCard], { type: 'text/vcard;charset=utf-8' });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = 'Darwin_Montalvo_KONFIO_ZINC.vcf';
+                document.body.appendChild(a); a.click(); document.body.removeChild(a);
+            });
+
+            let currentMonth, currentYear, selectedDate, selectedTime;
+
+            function resetAgenda() {
+                currentMonth = new Date().getMonth();
+                currentYear = new Date().getFullYear();
+                selectedDate = null; selectedTime = null;
+                renderCalendar();
+            }
+
+            function renderCalendar() {
+                const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+                const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+                const today = new Date(); today.setHours(0,0,0,0);
+                const monthNames = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+                const dayNames = ["Do","Lu","Ma","Mi","Ju","Vi","Sá"];
+                let html = `<div class="flex justify-between mb-4"><button id="prevMonth" class="p-2 hover:bg-gray-100 rounded">&larr;</button><h4 class="font-semibold text-lg text-slate-800">${monthNames[currentMonth]} ${currentYear}</h4><button id="nextMonth" class="p-2 hover:bg-gray-100 rounded">&rarr;</button></div><div class="grid grid-cols-7 gap-1 text-center text-xs text-slate-500 font-semibold mb-2">${dayNames.map(d=>`<div>${d}</div>`).join('')}</div><div class="grid grid-cols-7 gap-1 text-center">`;
+                for (let i=0; i<firstDay; i++) html += '<div></div>';
+                for (let d=1; d<=daysInMonth; d++) {
+                    const date = new Date(currentYear, currentMonth, d);
+                    const isPast = date < today;
+                    const isToday = date.getTime() === today.getTime();
+                    const isSun = date.getDay() === 0;
+                    const isSel = selectedDate && date.toDateString() === selectedDate.toDateString();
+                    let cls = 'calendar-day p-2 rounded-full text-sm ';
+                    if (isPast || isSun) cls += 'disabled';
+                    if (isToday) cls += ' today';
+                    if (isSel) cls += ' selected';
+                    const click = (!isPast && !isSun) ? `onclick="window.agendaSelectDay(${d},${currentMonth},${currentYear})"` : '';
+                    html += `<div class="${cls}" ${click}>${d}</div>`;
+                }
+                html += '</div>';
+                document.getElementById('agenda-content').innerHTML = html;
+                document.getElementById('prevMonth').addEventListener('click', ()=>{ currentMonth--; if(currentMonth<0){currentMonth=11; currentYear--;} renderCalendar(); });
+                document.getElementById('nextMonth').addEventListener('click', ()=>{ currentMonth++; if(currentMonth>11){currentMonth=0; currentYear++;} renderCalendar(); });
+            }
+
+            window.agendaSelectDay = function(day, month, year) {
+                selectedDate = new Date(year, month, day);
+                renderTimeSlots();
+            };
+
+            function renderTimeSlots() {
+                const dow = selectedDate.getDay();
+                let times = [];
+                if (dow>=1 && dow<=5) times = ['09:00','09:30','10:00','10:30','11:00','11:30','14:00','14:30','15:00','15:30','16:00','16:30'];
+                else if (dow===6) times = ['09:00','09:30','10:00','10:30','11:00','11:30'];
+                const dateStr = selectedDate.toLocaleDateString('es-ES', { weekday:'long', day:'numeric', month:'long' });
+                let html = `<button id="backCal" class="text-sm text-orange-600 hover:underline font-semibold mb-3">&larr; Volver</button><p class="text-slate-700 font-semibold mb-3">${dateStr}</p><div class="grid grid-cols-3 gap-2">`;
+                times.forEach(t => { html += `<div class="time-slot p-2 rounded-lg text-center text-sm cursor-pointer" data-time="${t}">${t}</div>`; });
+                html += `</div><button id="confirmBtn" class="w-full mt-6 py-3 bg-orange-500 text-white font-bold rounded-lg hover:bg-orange-600 disabled:bg-gray-400 disabled:cursor-not-allowed" disabled>Continuar</button>`;
+                document.getElementById('agenda-content').innerHTML = html;
+                document.getElementById('backCal').addEventListener('click', resetAgenda);
+                const confirmBtn = document.getElementById('confirmBtn');
+                document.querySelectorAll('.time-slot').forEach(slot => {
+                    slot.addEventListener('click', function() {
+                        document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+                        this.classList.add('selected');
+                        selectedTime = this.dataset.time;
+                        confirmBtn.disabled = false;
+                    });
+                });
+                confirmBtn.addEventListener('click', () => { showForm(); });
+            }
+
+            function showForm() {
+                const dateStr = selectedDate.toLocaleDateString('es-ES', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+                const html = `
+                    <button id="backForm" class="text-sm text-orange-600 hover:underline font-semibold mb-3">&larr; Volver</button>
+                    <p class="text-slate-700 font-semibold mb-3">${dateStr} a las ${selectedTime}</p>
+                    <form id="agenda-form" class="space-y-4">
+                        <div><label class="block text-sm font-medium text-slate-700 mb-1">Tu nombre *</label><input type="text" id="nombre" required class="w-full p-3 border border-gray-300 rounded-lg text-sm" placeholder="Ej: María García"></div>
+                        <div><label class="block text-sm font-medium text-slate-700 mb-1">Correo electrónico *</label><input type="email" id="email" required class="w-full p-3 border border-gray-300 rounded-lg text-sm" placeholder="Ej: maria@email.com"></div>
+                        <div><label class="block text-sm font-medium text-slate-700 mb-1">Motivo de la consulta</label><select id="motivo" class="w-full p-3 border border-gray-300 rounded-lg text-sm"><option value="Tarjeta Básica">Tarjeta Básica</option><option value="Tarjeta Profesional">Tarjeta Profesional</option><option value="Tarjeta Premium">Tarjeta Premium</option><option value="Menú Digital">Menú Digital</option><option value="Mini Landing Page">Mini Landing Page</option><option value="Otro">Otro</option></select></div>
+                        <div><label class="block text-sm font-medium text-slate-700 mb-1">Mensaje adicional</label><textarea id="mensaje" rows="3" class="w-full p-3 border border-gray-300 rounded-lg text-sm" placeholder="Cuéntame más sobre tu proyecto..."></textarea></div>
+                        <button type="submit" class="w-full py-3 bg-green-500 text-white font-bold rounded-lg hover:bg-green-600 transition"><i class="fas fa-check mr-2"></i>Confirmar y Enviar</button>
+                    </form>
+                `;
+                document.getElementById('agenda-content').innerHTML = html;
+                document.getElementById('backForm').addEventListener('click', renderTimeSlots);
+
+                document.getElementById('agenda-form').addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    const nombre = document.getElementById('nombre').value.trim();
+                    const email = document.getElementById('email').value.trim();
+                    const motivo = document.getElementById('motivo').value;
+                    const mensaje = document.getElementById('mensaje').value.trim();
+                    if (!nombre || !email) { alert('Por favor completa al menos tu nombre y correo electrónico.'); return; }
+
+                    const textoWhatsApp = `✅ *NUEVA CITA AGENDADA*%0A%0A📅 *Fecha:* ${dateStr}%0A🕐 *Hora:* ${selectedTime}%0A👤 *Nombre:* ${nombre}%0A📧 *Email:* ${email}%0A🎯 *Motivo:* ${motivo}%0A💬 *Mensaje:* ${mensaje || 'No especificado'}`;
+
+                    document.getElementById('agenda-content').innerHTML = `
+                        <div class="text-center py-8">
+                            <div class="text-6xl text-green-500 mb-4"><i class="fas fa-check-circle"></i></div>
+                            <h2 class="text-xl font-bold text-slate-800 mb-2">¡Cita Confirmada!</h2>
+                            <p class="text-slate-600">Tu cita está agendada para el</p>
+                            <p class="font-semibold text-slate-800 text-lg my-2 bg-slate-100 p-2 rounded-lg">${dateStr} a las ${selectedTime}</p>
+                            <p class="text-sm text-slate-500 mt-4">Te contactaremos pronto. ¡Gracias!</p>
+                            <button id="closeAgenda" class="mt-6 w-full py-3 bg-orange-500 text-white font-bold rounded-lg">Cerrar</button>
+                            <a href="https://wa.me/${TU_WHATSAPP}?text=${textoWhatsApp}" target="_blank" class="mt-3 w-full py-3 bg-green-500 text-white font-bold rounded-lg inline-block"><i class="fab fa-whatsapp mr-2"></i>Abrir WhatsApp</a>
+                        </div>`;
+                    document.getElementById('closeAgenda').addEventListener('click', () => {
+                        document.getElementById('agenda-modal').classList.remove('active');
+                        setTimeout(() => { document.getElementById('agenda-modal').style.display = 'none'; }, 300);
+                        document.body.style.overflow = '';
+                    });
+                });
+            }
+
+            resetAgenda();
+            window.resetAgenda = resetAgenda;
+        })();
+    </script>
+</body>
+</html>
