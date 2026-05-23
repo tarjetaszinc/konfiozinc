@@ -1,1 +1,1 @@
-# konfiozinc
+# konfío zinc
