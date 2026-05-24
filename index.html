@@ -3,72 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#0f172a">
+    <meta name="theme-color" content="#000000">
     <title>KONFÍO ZINC | Tarjeta Digital Premium</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Orbitron:wght@600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
     <style>
-        /* 1. Base Components */
+        /* ─── CSS VARIABLES ─────────────────────────────── */
+        :root {
+            --gold:    #F0B429;
+            --gold-2:  #FFD97D;
+            --orange:  #F97316;
+            --cyan:    #00E5FF;
+            --cyan-dim:#00B8CC;
+            --black:   #000000;
+            --black-2: #0A0A0A;
+            --black-3: #111111;
+            --black-4: #1A1A1A;
+            --black-5: #222222;
+            --white:   #FFFFFF;
+            --gray:    #888888;
+            --gray-2:  #555555;
+        }
+
+        /* ─── BASE ──────────────────────────────────────── */
+        * { box-sizing: border-box; }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--black);
             min-height: 100vh;
             margin: 0;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 16px;
+            /* subtle grid noise */
+            background-image:
+                radial-gradient(circle at 20% 20%, rgba(240,180,41,0.06) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0,229,255,0.05) 0%, transparent 50%),
+                linear-gradient(rgba(240,180,41,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(240,180,41,0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
         }
+
+        /* ─── MAIN CARD ─────────────────────────────────── */
         .glass-card {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: linear-gradient(145deg, #111111 0%, #0A0A0A 60%, #000000 100%);
+            border: 1px solid rgba(240,180,41,0.25);
             position: relative;
             overflow: hidden;
             width: 100%;
-            max-width: 380px;
-            border-radius: 24px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            max-width: 390px;
+            border-radius: 28px;
+            box-shadow:
+                0 0 0 1px rgba(240,180,41,0.08),
+                0 40px 80px rgba(0,0,0,0.8),
+                0 0 60px rgba(240,180,41,0.06),
+                inset 0 1px 0 rgba(255,255,255,0.05);
         }
-        .glass-modal {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(240,180,41,0.6), rgba(0,229,255,0.4), transparent);
+            z-index: 2;
         }
 
-        /* 2. Brand & UI Accents */
-        .text-gradient {
-            background: linear-gradient(135deg, #38bdf8, #a78bfa);
+        /* ─── MODAL GLASS ───────────────────────────────── */
+        .glass-modal {
+            background: #0F0F0F;
+            border: 1px solid rgba(240,180,41,0.2);
+            color: var(--white);
+        }
+        .glass-modal-light {
+            background: #F5F5F0;
+            color: #111;
+        }
+
+        /* ─── GRADIENTS & TEXT ──────────────────────────── */
+        .text-gradient-gold {
+            background: linear-gradient(135deg, var(--gold), var(--orange));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        .btn-gradient {
-            background: linear-gradient(135deg, #0ea5e9, #6366f1);
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
-        }
-        .btn-gradient:active {
-            transform: scale(0.97);
-        }
-        .icon-box {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(5px);
-            transition: all 0.3s ease;
-        }
-        .icon-box:active {
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(0.95);
+        .text-gradient-cyan {
+            background: linear-gradient(135deg, var(--cyan), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        /* 3. Header & Profile Elements */
+        /* ─── BUTTONS ───────────────────────────────────── */
+        .btn-gold {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--orange) 100%);
+            color: #000;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(240,180,41,0.35), 0 0 0 1px rgba(240,180,41,0.2);
+            font-family: 'Syne', sans-serif;
+            letter-spacing: 0.02em;
+        }
+        .btn-gold:hover, .btn-gold:active {
+            transform: scale(0.97);
+            box-shadow: 0 6px 30px rgba(240,180,41,0.5), 0 0 20px rgba(0,229,255,0.15);
+        }
+        .btn-cyan {
+            background: linear-gradient(135deg, rgba(0,229,255,0.15), rgba(0,229,255,0.05));
+            border: 1px solid rgba(0,229,255,0.4);
+            color: var(--cyan);
+            font-family: 'Syne', sans-serif;
+            transition: all 0.3s ease;
+        }
+        .btn-cyan:hover { background: rgba(0,229,255,0.2); box-shadow: 0 0 20px rgba(0,229,255,0.2); }
+
+        /* ─── ICON BOXES ────────────────────────────────── */
+        .icon-box {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            transition: all 0.25s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .icon-box::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(240,180,41,0.06), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .icon-box:active {
+            transform: scale(0.94);
+            border-color: rgba(240,180,41,0.35);
+            box-shadow: 0 0 12px rgba(240,180,41,0.15);
+        }
+        .icon-box:active::after { opacity: 1; }
+
+        /* ─── PROFILE BANNER ────────────────────────────── */
         .profile-banner {
             position: relative;
             width: 100%;
@@ -76,86 +153,135 @@
             overflow: hidden;
         }
         .profile-banner img {
-            width: 100%;
-            height: 100%;
+            width: 100%; height: 100%;
             object-fit: cover;
             object-position: center 25%;
+            filter: brightness(0.85) contrast(1.05);
         }
         .profile-banner::after {
             content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 80px;
-            background: linear-gradient(to top, rgba(15, 23, 42, 1) 0%, rgba(15, 23, 42, 0.6) 60%, transparent 100%);
+            position: absolute; bottom: 0; left: 0; right: 0; height: 100px;
+            background: linear-gradient(to top, #0A0A0A 0%, rgba(10,10,10,0.7) 50%, transparent 100%);
         }
+        .profile-banner::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, rgba(240,180,41,0.08), rgba(0,229,255,0.05));
+            z-index: 1;
+        }
+
+        /* ─── LOGO 3D ───────────────────────────────────── */
         .logo-3d {
             position: absolute;
-            top: 16px;
-            left: 16px;
+            top: 16px; left: 16px;
             z-index: 10;
-            width: 52px;
-            height: 52px;
+            width: 54px; height: 54px;
             border-radius: 14px;
             object-fit: cover;
-            background: rgba(255, 255, 255, 0.25);
+            background: rgba(0,0,0,0.6);
             backdrop-filter: blur(8px);
-            padding: 4px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), 0 0 0 2px rgba(255, 255, 255, 0.3);
+            padding: 3px;
+            box-shadow:
+                0 10px 25px rgba(0,0,0,0.7),
+                0 0 0 1.5px rgba(240,180,41,0.5),
+                0 0 20px rgba(240,180,41,0.2);
             transform: perspective(600px) rotateY(-6deg) rotateX(4deg);
         }
 
-        /* 4. Core Animations */
+        /* ─── QR BADGE (clickable) ──────────────────────── */
+        .qr-badge {
+            position: absolute;
+            top: 14px; right: 14px;
+            z-index: 10;
+            background: rgba(0,0,0,0.75);
+            border: 1px solid rgba(0,229,255,0.45);
+            border-radius: 10px;
+            padding: 6px 10px 6px 8px;
+            display: flex; align-items: center; gap: 6px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 12px rgba(0,229,255,0.15);
+            transition: all 0.25s ease;
+            text-decoration: none;
+        }
+        .qr-badge:hover {
+            border-color: rgba(0,229,255,0.8);
+            box-shadow: 0 0 20px rgba(0,229,255,0.3);
+            transform: scale(1.04);
+        }
+        .qr-badge i {
+            font-size: 16px;
+            color: var(--cyan);
+        }
+        .qr-badge-text {
+            display: flex; flex-direction: column; line-height: 1.2;
+        }
+        .qr-badge-text span:first-child {
+            font-size: 9px;
+            font-family: 'Orbitron', sans-serif;
+            color: var(--cyan);
+            letter-spacing: 0.1em;
+        }
+        .qr-badge-text span:last-child {
+            font-size: 8px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: rgba(0,229,255,0.55);
+            letter-spacing: 0.04em;
+        }
+        @keyframes qr-pulse-border {
+            0%,100%{ box-shadow: 0 0 8px rgba(0,229,255,0.15); }
+            50%    { box-shadow: 0 0 18px rgba(0,229,255,0.35); }
+        }
+        .qr-badge { animation: qr-pulse-border 2.5s ease-in-out infinite; }
+
+        /* ─── ANIMATIONS ────────────────────────────────── */
         @keyframes ripple-expand {
-            0% { transform: scale(0.9); opacity: 0.8; }
-            100% { transform: scale(1.6); opacity: 0; }
+            0%  { transform: scale(0.9); opacity: 0.7; }
+            100%{ transform: scale(1.7); opacity: 0; }
         }
         .ripple-container { position: relative; display: inline-flex; align-items: center; justify-content: center; }
         .social-ripple::before {
             content: ''; position: absolute; border-radius: 50%; pointer-events: none; z-index: 0;
-            width: 100%; height: 100%; animation: ripple-expand 1.8s ease-out infinite;
+            width: 100%; height: 100%; animation: ripple-expand 2s ease-out infinite;
+            background: currentColor; opacity: 0.15;
         }
 
-        .solicita-btn-wrapper { position: relative; display: inline-block; }
+        @keyframes ripple-expand-sol {
+            0%  { width: calc(100% + 8px); height: calc(100% + 8px); opacity: 0.7; }
+            100%{ width: calc(100% + 56px); height: calc(100% + 56px); opacity: 0; }
+        }
+        .solicita-btn-wrapper { position: relative; display: block; }
         .solicita-btn-wrapper .btn-inner { position: relative; z-index: 1; }
         .solicita-btn-wrapper::before {
             content: ''; position: absolute; top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: calc(100% + 16px); height: calc(100% + 16px);
-            border-radius: 9999px; border: 2px solid rgba(99,102,241,0.5);
+            width: calc(100% + 12px); height: calc(100% + 12px);
+            border-radius: 9999px; border: 1.5px solid rgba(240,180,41,0.4);
             pointer-events: none; z-index: 0;
-            animation: ripple-expand-sol 2.2s ease-out infinite;
-        }
-        @keyframes ripple-expand-sol {
-            0% { width: calc(100% + 8px); height: calc(100% + 8px); opacity: 0.8; }
-            100% { width: calc(100% + 50px); height: calc(100% + 50px); opacity: 0; }
+            animation: ripple-expand-sol 2.4s ease-out infinite;
         }
 
-        .call-btn-glow {
-            animation: call-glow 2s ease-in-out infinite;
-            background: rgba(34,197,94,0.15);
-            border: 1.5px solid rgba(34,197,94,0.5);
-        }
         @keyframes call-glow {
-            0%, 100% { box-shadow: 0 0 8px rgba(34,197,94,0.4); }
-            50% { box-shadow: 0 0 18px rgba(34,197,94,0.7); }
+            0%,100%{ box-shadow: 0 0 8px rgba(74,222,128,0.4), 0 0 0 1px rgba(74,222,128,0.2); }
+            50%    { box-shadow: 0 0 20px rgba(74,222,128,0.7), 0 0 0 1px rgba(74,222,128,0.4); }
+        }
+        .call-btn-glow {
+            animation: call-glow 2.2s ease-in-out infinite;
+            border: 1px solid rgba(74,222,128,0.35) !important;
         }
 
-        /* 5. Floating Elements */
-        .card-wrapper { position: relative; }
+        /* ─── WHATSAPP FLOAT ────────────────────────────── */
         .whatsapp-float {
             position: absolute;
-            bottom: 20px; right: 20px;
-            z-index: 10;
-            width: 52px; height: 52px;
-            border-radius: 50%;
+            bottom: 20px; right: 20px; z-index: 10;
+            width: 52px; height: 52px; border-radius: 50%;
             background: #25D366;
             color: white;
             display: flex; align-items: center; justify-content: center;
             font-size: 26px;
-            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5);
+            box-shadow: 0 6px 24px rgba(37,211,102,0.5);
             text-decoration: none;
+            border: 1.5px solid rgba(255,255,255,0.2);
         }
         .whatsapp-pulse-ring {
             position: absolute; bottom: 20px; right: 20px; z-index: 9;
@@ -163,16 +289,16 @@
         }
         .whatsapp-pulse-ring::before {
             content: ''; position: absolute; top: 50%; left: 50%;
-            transform: translate(-50%, -50%); border-radius: 50%;
+            transform: translate(-50%,-50%); border-radius: 50%;
             border: 2px solid #25D366;
-            animation: whatsapp-pulse 2s ease-out infinite;
+            animation: whatsapp-pulse 2.2s ease-out infinite;
         }
         @keyframes whatsapp-pulse {
-            0% { width: 52px; height: 52px; opacity: 0.8; }
-            100% { width: 100px; height: 100px; opacity: 0; }
+            0%  { width: 52px; height: 52px; opacity: 0.8; }
+            100%{ width: 100px; height: 100px; opacity: 0; }
         }
 
-        /* 6. Modals UI */
+        /* ─── MODAL SYSTEM ──────────────────────────────── */
         .modal-overlay {
             transition: opacity 0.3s ease, visibility 0.3s ease;
         }
@@ -184,251 +310,498 @@
         }
         .modal-overlay.active .modal-content { transform: scale(1) translateY(0); opacity: 1; }
 
-        /* 7. Carousel Plugin Styles */
-        .carousel-container { position: relative; overflow: hidden; }
+        /* ─── MODAL HEADERS ─────────────────────────────── */
+        .modal-header-gold {
+            background: linear-gradient(135deg, rgba(240,180,41,0.15), rgba(249,115,22,0.1));
+            border-bottom: 1px solid rgba(240,180,41,0.25);
+            padding: 16px 20px;
+            display: flex; align-items: center; justify-content: space-between;
+            border-radius: 16px 16px 0 0;
+        }
+        .modal-header-cyan {
+            background: linear-gradient(135deg, rgba(0,229,255,0.1), rgba(240,180,41,0.08));
+            border-bottom: 1px solid rgba(0,229,255,0.2);
+            padding: 16px 20px;
+            display: flex; align-items: center; justify-content: space-between;
+            border-radius: 16px 16px 0 0;
+        }
+        .modal-close-btn {
+            color: var(--gray);
+            font-size: 22px;
+            line-height: 1;
+            cursor: pointer;
+            transition: color 0.2s;
+            background: none; border: none; padding: 0;
+        }
+        .modal-close-btn:hover { color: var(--gold); }
+
+        /* ─── CAROUSEL ──────────────────────────────────── */
+        .carousel-container { position: relative; overflow: hidden; border-radius: 12px; }
         .carousel-track { display: flex; transition: transform 0.4s ease; }
         .carousel-slide { min-width: 100%; padding: 0 4px; }
         .carousel-slide img {
-            width: 100%;
-            height: auto;
-            max-height: 300px;
+            width: 100%; height: auto; max-height: 300px;
             object-fit: contain;
-            background: #f1f5f9;
+            background: #111;
             border-radius: 12px;
         }
         .carousel-dot {
-            width: 8px; height: 8px; border-radius: 50%; background: #cbd5e1;
-            cursor: pointer; transition: all 0.3s;
+            width: 8px; height: 8px; border-radius: 50%;
+            background: var(--gray-2); cursor: pointer; transition: all 0.3s;
         }
-        .carousel-dot.active { background: #6366f1; width: 20px; border-radius: 4px; }
+        .carousel-dot.active { background: var(--gold); width: 20px; border-radius: 4px; }
 
-        /* 8. Booking Calendar Styles */
-        .calendar-day { transition: all 0.2s; padding: 8px 0; }
-        .calendar-day:not(.disabled):active { background-color: #e0e7ff; }
-        .calendar-day.disabled { color: #cbd5e1; }
-        .calendar-day.today { background-color: #6366f1; color: white; font-weight: bold; }
-        .calendar-day.selected { background-color: #0ea5e9; color: white; }
-        .time-slot { transition: all 0.2s; border: 2px solid #e2e8f0; }
-        .time-slot.selected { background-color: #0ea5e9; color: white; border-color: #0ea5e9; }
+        /* ─── CALENDAR ──────────────────────────────────── */
+        .calendar-day { transition: all 0.2s; padding: 8px 0; border-radius: 50%; cursor: pointer; font-size: 13px; color: #ccc; }
+        .calendar-day:not(.disabled):hover { background: rgba(240,180,41,0.15); color: var(--gold); }
+        .calendar-day.disabled { color: #333; cursor: default; }
+        .calendar-day.today { background: var(--gold); color: #000 !important; font-weight: 700; }
+        .calendar-day.selected { background: var(--cyan); color: #000 !important; font-weight: 700; }
+        .time-slot {
+            transition: all 0.2s;
+            border: 1.5px solid #333;
+            border-radius: 8px;
+            color: #ccc; cursor: pointer;
+            padding: 8px;
+            text-align: center; font-size: 13px;
+        }
+        .time-slot:hover { border-color: var(--gold); color: var(--gold); }
+        .time-slot.selected { background: var(--gold); color: #000 !important; border-color: var(--gold); font-weight: 700; }
 
-        /* 9. QR Custom Logo Centering Layout */
+        /* ─── QR ────────────────────────────────────────── */
         .qr-wrapper {
-            position: relative;
-            display: inline-block;
-            background: #ffffff;
-            padding: 12px;
+            position: relative; display: inline-block;
+            background: #ffffff; padding: 12px;
             border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            box-shadow: 0 0 30px rgba(240,180,41,0.2), 0 0 0 1px rgba(240,180,41,0.3);
         }
         .qr-center-logo {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 38px;
-            height: 38px;
-            background: white;
-            border-radius: 8px;
-            padding: 3px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-            z-index: 5;
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%,-50%);
+            width: 38px; height: 38px;
+            background: white; border-radius: 8px; padding: 3px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2); z-index: 5;
+        }
+
+        /* ─── SERVICES CARDS ────────────────────────────── */
+        .service-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 14px; padding: 14px;
+            display: flex; gap: 12px; align-items: flex-start;
+            transition: border-color 0.2s;
+        }
+        .service-card:hover { border-color: rgba(240,180,41,0.25); }
+        .service-icon {
+            width: 44px; height: 44px;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px; flex-shrink: 0;
+        }
+        .price-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(240,180,41,0.15), rgba(249,115,22,0.1));
+            border: 1px solid rgba(240,180,41,0.3);
+            color: var(--gold);
+            font-family: 'Syne', sans-serif;
+            font-size: 12px; font-weight: 700;
+            padding: 2px 8px; border-radius: 6px;
+            margin-top: 4px;
+        }
+
+        /* ─── ORBITRON BRAND ────────────────────────────── */
+        .brand-orbitron {
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 0.12em;
+        }
+        .syne { font-family: 'Syne', sans-serif; }
+
+        /* ─── DIVIDER ───────────────────────────────────── */
+        .divider-gold {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(240,180,41,0.3), transparent);
+            margin: 0 20px;
+        }
+
+        /* ─── FOOTER ────────────────────────────────────── */
+        .card-footer {
+            padding: 14px 20px;
+            text-align: center;
+        }
+
+        /* ─── FORM ELEMENTS (DARK) ──────────────────────── */
+        .dark-input {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.12);
+            color: #fff;
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 14px;
+            width: 100%;
+            transition: border-color 0.2s;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .dark-input:focus { outline: none; border-color: rgba(240,180,41,0.5); box-shadow: 0 0 0 3px rgba(240,180,41,0.08); }
+        .dark-input::placeholder { color: #555; }
+        .dark-label { font-size: 12px; font-weight: 600; color: #888; margin-bottom: 5px; display: block; letter-spacing: 0.04em; text-transform: uppercase; font-family: 'Syne', sans-serif; }
+
+        /* ─── SCROLLBAR ─────────────────────────────────── */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #111; }
+        ::-webkit-scrollbar-thumb { background: rgba(240,180,41,0.3); border-radius: 2px; }
+
+        /* ─── GLOW DOT ──────────────────────────────────── */
+        @keyframes dot-pulse {
+            0%,100%{ opacity: 1; transform: scale(1); }
+            50%    { opacity: 0.5; transform: scale(0.8); }
+        }
+        .live-dot {
+            width: 7px; height: 7px; border-radius: 50%;
+            background: var(--cyan);
+            display: inline-block;
+            animation: dot-pulse 1.5s ease-in-out infinite;
+            box-shadow: 0 0 6px var(--cyan);
         }
     </style>
 </head>
 <body>
 
-    <div class="w-full max-w-sm glass-card rounded-3xl shadow-2xl overflow-hidden border border-white/20 card-wrapper">
-        
+    <div class="glass-card card-wrapper" style="position:relative;">
+
+        <!-- ═══ BANNER ═══════════════════════════════════ -->
         <div class="profile-banner">
-            <img src="https://i.postimg.cc/tTBypHCZ/Whats-App-Image-2026-05-24-at-07-06-16.jpg" alt="Logo KONFÍO ZINC" onerror="this.onerror=null;this.src='https://placehold.co/400x220/0f172a/38bdf8?text=KONF%C3%8DO+ZINC';">
+            <img src="https://i.postimg.cc/tTBypHCZ/Whats-App-Image-2026-05-24-at-07-06-16.jpg"
+                 alt="Banner KONFÍO ZINC"
+                 onerror="this.onerror=null;this.src='https://placehold.co/400x220/000000/F0B429?text=KONF%C3%8DO+ZINC';">
         </div>
-        <img src="https://i.postimg.cc/L8Ns16L1/Whats-App-Image-2026-05-10-at-14-52-22.jpg" alt="Darwin Montalvo" class="logo-3d" onerror="this.onerror=null;this.src='https://placehold.co/52x52/1e293b/38bdf8?text=DM';">
 
+        <!-- Logo + scan badge -->
+        <img src="https://i.postimg.cc/L8Ns16L1/Whats-App-Image-2026-05-10-at-14-52-22.jpg"
+             alt="Darwin Montalvo" class="logo-3d"
+             onerror="this.onerror=null;this.src='https://placehold.co/54x54/0A0A0A/F0B429?text=DM';">
+        <button class="qr-badge" id="qr-badge-btn" aria-label="Ver código QR"><i class="fas fa-qrcode"></i><div class="qr-badge-text"><span>ESCANEAR</span><span>Ver mi QR</span></div></button>
+
+        <!-- ═══ PROFILE INFO ══════════════════════════════ -->
         <div class="relative -mt-10 pt-2 pb-6 px-5 text-center">
-            <h1 class="text-2xl font-bold text-white mt-2 tracking-tight">Darwin Montalvo</h1>
-            <p class="text-gradient text-lg font-semibold tracking-wider" style="font-family: 'Orbitron', sans-serif;">KONFÍO ZINC</p>
-            <p class="text-slate-300 text-sm mt-2 max-w-xs mx-auto">Tarjetas digitales interactivas que transforman tu presencia profesional</p>
 
-            <div class="solicita-btn-wrapper mt-6">
-                <a href="https://wa.me/573206411340?text=Hola%20Darwin%2C%20quiero%20mi%20tarjeta%20digital%20personalizada" target="_blank" class="btn-gradient btn-inner inline-flex items-center justify-center px-8 py-3 rounded-full text-white font-bold text-lg gap-2 w-full">
-                    <i class="fas fa-magic"></i> Solicita tu tarjeta
+            <!-- Live indicator -->
+            <div style="display:inline-flex;align-items:center;gap:6px;margin-bottom:8px;">
+                <span class="live-dot"></span>
+                <span style="font-size:10px;color:var(--cyan);font-family:'Syne',sans-serif;letter-spacing:0.1em;text-transform:uppercase;">Disponible ahora</span>
+            </div>
+
+            <h1 class="text-white syne" style="font-size:24px;font-weight:800;letter-spacing:0.01em;line-height:1.1;margin:0 0 4px;">Darwin Montalvo</h1>
+            <p class="brand-orbitron text-gradient-gold" style="font-size:14px;margin:0 0 8px;">KONFÍO ZINC</p>
+            <p style="color:#888;font-size:13px;line-height:1.5;max-width:280px;margin:0 auto 20px;">
+                Tarjetas digitales interactivas que <span style="color:var(--gold);">transforman</span> tu presencia profesional
+            </p>
+
+            <!-- CTA Button -->
+            <div class="solicita-btn-wrapper">
+                <a href="https://wa.me/573206411340?text=Hola%20Darwin%2C%20quiero%20mi%20tarjeta%20digital%20personalizada"
+                   target="_blank"
+                   class="btn-gold btn-inner inline-flex items-center justify-center gap-2 rounded-full"
+                   style="width:100%;padding:14px 24px;font-size:15px;border-radius:9999px;text-decoration:none;">
+                    <i class="fas fa-bolt"></i>
+                    <span>Solicita tu tarjeta</span>
                 </a>
             </div>
         </div>
 
+        <!-- ═══ SOCIAL ICONS ══════════════════════════════ -->
         <div class="px-6 pb-2">
             <div class="flex justify-center gap-4">
-                <a href="https://www.facebook.com/profile.php?id=61589654555930" target="_blank" class="ripple-container social-ripple flex items-center justify-center w-10 h-10 rounded-full text-white text-lg" style="background: #1877F2; position: relative; z-index: 1;">
+                <a href="https://www.facebook.com/profile.php?id=61589654555930" target="_blank"
+                   class="ripple-container social-ripple flex items-center justify-center w-11 h-11 rounded-full text-white"
+                   style="background:#1877F2;font-size:16px;position:relative;z-index:1;box-shadow:0 4px 15px rgba(24,119,242,0.35);">
                     <i class="fab fa-facebook-f"></i>
                 </a>
-                <a href="https://www.instagram.com/konfiozinc" target="_blank" class="ripple-container social-ripple flex items-center justify-center w-10 h-10 rounded-full text-white text-lg" style="background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); position: relative; z-index: 1;">
+                <a href="https://www.instagram.com/konfiozinc" target="_blank"
+                   class="ripple-container social-ripple flex items-center justify-center w-11 h-11 rounded-full text-white"
+                   style="background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);font-size:16px;position:relative;z-index:1;box-shadow:0 4px 15px rgba(220,39,67,0.35);">
                     <i class="fab fa-instagram"></i>
                 </a>
-                <a href="https://www.tiktok.com/@konfiozinc?_r=1&_t=ZS-96N3Vmh92tJ" target="_blank" class="ripple-container social-ripple flex items-center justify-center w-10 h-10 rounded-full text-white text-lg" style="background: #000; border: 1.5px solid #ffffff33; position: relative; z-index: 1;">
+                <a href="https://www.tiktok.com/@konfiozinc?_r=1&_t=ZS-96N3Vmh92tJ" target="_blank"
+                   class="ripple-container social-ripple flex items-center justify-center w-11 h-11 rounded-full text-white"
+                   style="background:#111;border:1.5px solid rgba(0,229,255,0.35);font-size:16px;position:relative;z-index:1;box-shadow:0 4px 15px rgba(0,229,255,0.15);">
                     <i class="fab fa-tiktok"></i>
                 </a>
             </div>
         </div>
 
-        <div class="px-6 pb-4 mt-3">
-            <p class="text-slate-400 text-xs text-center mb-4">Toca los íconos para interactuar</p>
+        <div class="divider-gold" style="margin:16px 20px;"></div>
+
+        <!-- ═══ ACTION GRID ═══════════════════════════════ -->
+        <div class="px-5 pb-4">
+            <p style="color:var(--gray-2);font-size:10px;text-align:center;letter-spacing:0.08em;text-transform:uppercase;font-family:'Syne',sans-serif;margin-bottom:12px;">Interactúa · Conecta · Agenda</p>
             <div class="grid grid-cols-4 gap-3">
-                <a href="tel:+573206411340" class="icon-box call-btn-glow flex flex-col items-center justify-center p-3 rounded-xl text-white text-center">
-                    <i class="fas fa-phone-alt text-2xl mb-1 text-green-400"></i>
-                    <span class="text-[10px]">Llamar</span>
+
+                <a href="tel:+573206411340"
+                   class="icon-box call-btn-glow flex flex-col items-center justify-center p-3 rounded-2xl text-center"
+                   style="text-decoration:none;">
+                    <i class="fas fa-phone-alt" style="font-size:22px;margin-bottom:5px;color:#4ade80;"></i>
+                    <span style="font-size:9px;color:#aaa;font-family:'Syne',sans-serif;letter-spacing:0.04em;">Llamar</span>
                 </a>
-                <button id="agenda-btn" class="icon-box flex flex-col items-center justify-center p-3 rounded-xl text-white text-center cursor-pointer">
-                    <i class="fas fa-calendar-alt text-2xl mb-1 text-orange-400"></i>
-                    <span class="text-[10px]">Agenda tu cita</span>
-                </button>
-                <a href="mailto:konfiozinc@gmail.com" class="icon-box flex flex-col items-center justify-center p-3 rounded-xl text-white text-center">
-                    <i class="fas fa-envelope text-2xl mb-1 text-amber-400"></i>
-                    <span class="text-[10px]">Correo</span>
-                </a>
-                <button id="services-btn" class="icon-box flex flex-col items-center justify-center p-3 rounded-xl text-white text-center cursor-pointer">
-                    <i class="fas fa-list-check text-2xl mb-1 text-cyan-400"></i>
-                    <span class="text-[10px]">Servicios</span>
+
+                <button id="agenda-btn"
+                        class="icon-box flex flex-col items-center justify-center p-3 rounded-2xl text-center cursor-pointer"
+                        style="border:none;">
+                    <i class="fas fa-calendar-alt" style="font-size:22px;margin-bottom:5px;color:var(--gold);"></i>
+                    <span style="font-size:9px;color:#aaa;font-family:'Syne',sans-serif;letter-spacing:0.04em;">Agenda</span>
                 </button>
 
-                <button id="portfolio-btn" class="icon-box flex flex-col items-center justify-center p-3 rounded-xl text-white text-center cursor-pointer">
-                    <i class="fas fa-images text-2xl mb-1 text-purple-400"></i>
-                    <span class="text-[10px]">Portafolio</span>
+                <a href="mailto:konfiozinc@gmail.com"
+                   class="icon-box flex flex-col items-center justify-center p-3 rounded-2xl text-center"
+                   style="text-decoration:none;">
+                    <i class="fas fa-envelope" style="font-size:22px;margin-bottom:5px;color:var(--orange);"></i>
+                    <span style="font-size:9px;color:#aaa;font-family:'Syne',sans-serif;letter-spacing:0.04em;">Correo</span>
+                </a>
+
+                <button id="services-btn"
+                        class="icon-box flex flex-col items-center justify-center p-3 rounded-2xl text-center cursor-pointer"
+                        style="border:none;">
+                    <i class="fas fa-list-check" style="font-size:22px;margin-bottom:5px;color:var(--cyan);"></i>
+                    <span style="font-size:9px;color:#aaa;font-family:'Syne',sans-serif;letter-spacing:0.04em;">Servicios</span>
                 </button>
-                <button id="qr-btn" class="icon-box flex flex-col items-center justify-center p-3 rounded-xl text-white text-center cursor-pointer">
-                    <i class="fas fa-qrcode text-2xl mb-1 text-teal-400"></i>
-                    <span class="text-[10px]">QR</span>
+
+                <button id="portfolio-btn"
+                        class="icon-box flex flex-col items-center justify-center p-3 rounded-2xl text-center cursor-pointer"
+                        style="border:none;">
+                    <i class="fas fa-images" style="font-size:22px;margin-bottom:5px;color:#a855f7;"></i>
+                    <span style="font-size:9px;color:#aaa;font-family:'Syne',sans-serif;letter-spacing:0.04em;">Portafolio</span>
                 </button>
-                <button id="save-btn" class="icon-box flex flex-col items-center justify-center p-3 rounded-xl text-white text-center cursor-pointer">
-                    <i class="fas fa-address-card text-2xl mb-1 text-pink-400"></i>
-                    <span class="text-[10px]">Guardar</span>
+
+                <button id="qr-btn"
+                        class="icon-box flex flex-col items-center justify-center p-3 rounded-2xl text-center cursor-pointer"
+                        style="border:none;">
+                    <i class="fas fa-qrcode" style="font-size:22px;margin-bottom:5px;color:var(--cyan);"></i>
+                    <span style="font-size:9px;color:#aaa;font-family:'Syne',sans-serif;letter-spacing:0.04em;">QR</span>
                 </button>
-                <button id="install-btn" class="icon-box flex flex-col items-center justify-center p-3 rounded-xl text-white text-center cursor-pointer">
-                    <i class="fas fa-mobile-screen-button text-2xl mb-1 text-indigo-400"></i>
-                    <span class="text-[10px]">Instalar</span>
+
+                <button id="save-btn"
+                        class="icon-box flex flex-col items-center justify-center p-3 rounded-2xl text-center cursor-pointer"
+                        style="border:none;">
+                    <i class="fas fa-address-card" style="font-size:22px;margin-bottom:5px;color:#f472b6;"></i>
+                    <span style="font-size:9px;color:#aaa;font-family:'Syne',sans-serif;letter-spacing:0.04em;">Guardar</span>
+                </button>
+
+                <button id="install-btn"
+                        class="icon-box flex flex-col items-center justify-center p-3 rounded-2xl text-center cursor-pointer"
+                        style="border:none;">
+                    <i class="fas fa-mobile-screen-button" style="font-size:22px;margin-bottom:5px;color:#818cf8;"></i>
+                    <span style="font-size:9px;color:#aaa;font-family:'Syne',sans-serif;letter-spacing:0.04em;">Instalar</span>
                 </button>
             </div>
-            
+
+            <!-- Video Button -->
             <div class="mt-4 text-center">
-                <button id="video-btn" class="icon-box inline-flex items-center gap-2 px-4 py-2 rounded-full text-white text-sm cursor-pointer">
-                    <i class="fas fa-play text-red-400"></i> Ver Video Promocional
+                <button id="video-btn"
+                        class="icon-box inline-flex items-center gap-2 px-5 py-2 rounded-full text-white cursor-pointer"
+                        style="border:1px solid rgba(239,68,68,0.3);font-size:13px;font-family:'Syne',sans-serif;letter-spacing:0.04em;background:rgba(239,68,68,0.07);">
+                    <i class="fas fa-play" style="color:#f87171;"></i>
+                    Ver Video Promocional
                 </button>
             </div>
         </div>
 
-        <div class="border-t border-white/10 px-6 py-4 text-center">
-            <p class="text-slate-400 text-xs">© 2026 KONFÍO ZINC · Transformamos contactos en experiencias</p>
+        <!-- ═══ FOOTER ════════════════════════════════════ -->
+        <div class="divider-gold"></div>
+        <div class="card-footer">
+            <p style="font-size:10px;color:#444;font-family:'Syne',sans-serif;letter-spacing:0.08em;text-transform:uppercase;">© 2026 KONFÍO ZINC · Transformamos contactos en experiencias</p>
         </div>
 
-        <a href="https://wa.me/573206411340?text=Hola%20Darwin%2C%20quiero%20mi%20tarjeta%20digital%20personalizada" target="_blank" class="whatsapp-float" aria-label="WhatsApp">
+        <!-- WhatsApp Float -->
+        <a href="https://wa.me/573206411340?text=Hola%20Darwin%2C%20quiero%20mi%20tarjeta%20digital%20personalizada"
+           target="_blank" class="whatsapp-float" aria-label="WhatsApp">
             <i class="fab fa-whatsapp"></i>
         </a>
         <div class="whatsapp-pulse-ring"></div>
     </div>
 
 
-    <div id="qr-modal" class="modal-overlay fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 opacity-0 invisible" style="display:none;">
-        <div class="modal-content glass-modal rounded-2xl p-6 text-center max-w-xs w-full relative">
-            <button class="modal-close absolute top-3 right-3 text-slate-500 hover:text-slate-800 text-2xl">&times;</button>
-            <h3 class="font-bold text-lg text-slate-800 mb-3">Escanea y comparte</h3>
-            
+    <!-- ═══════════════════════════════════════════════════
+         MODALS
+    ══════════════════════════════════════════════════════ -->
+
+    <!-- QR Modal -->
+    <div id="qr-modal" class="modal-overlay fixed inset-0 flex items-center justify-center p-4 z-50 opacity-0 invisible"
+         style="display:none;background:rgba(0,0,0,0.85);">
+        <div class="modal-content glass-modal rounded-2xl p-6 text-center max-w-xs w-full relative"
+             style="border:1px solid rgba(240,180,41,0.25);">
+            <button class="modal-close absolute top-3 right-3 modal-close-btn">&times;</button>
+            <p class="brand-orbitron text-gradient-gold" style="font-size:11px;letter-spacing:0.12em;margin-bottom:4px;">KONFÍO ZINC</p>
+            <h3 class="syne" style="font-size:18px;font-weight:700;color:#fff;margin-bottom:16px;">Escanea y comparte</h3>
             <div class="qr-wrapper mx-auto mb-4">
                 <div id="qrcode-container" class="flex justify-center"></div>
-                <img src="https://i.postimg.cc/L8Ns16L1/Whats-App-Image-2026-05-10-at-14-52-22.jpg" alt="Logo" class="qr-center-logo" onerror="this.style.display='none'">
+                <img src="https://i.postimg.cc/L8Ns16L1/Whats-App-Image-2026-05-10-at-14-52-22.jpg"
+                     alt="Logo" class="qr-center-logo"
+                     onerror="this.style.display='none'">
             </div>
-
-            <p class="text-sm text-slate-600 mb-2">Apunta la cámara de tu móvil a este código.</p>
-            <button id="native-share-btn" class="btn-gradient mt-4 w-full py-2 rounded-lg text-white font-semibold hidden">
+            <p style="font-size:12px;color:#666;margin-bottom:8px;">Apunta la cámara de tu móvil a este código</p>
+            <button id="native-share-btn"
+                    class="btn-gold mt-3 w-full py-2 rounded-xl hidden"
+                    style="font-size:14px;">
                 <i class="fas fa-share-alt mr-2"></i>Compartir ahora
             </button>
         </div>
     </div>
 
-    <div id="agenda-modal" class="modal-overlay fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 opacity-0 invisible" style="display:none;">
-        <div class="modal-content glass-modal rounded-2xl w-full max-w-md max-h-[95vh] overflow-hidden flex flex-col">
-            <div class="p-4 border-b flex justify-between items-center bg-gradient-to-r from-orange-500 to-amber-600 text-white rounded-t-2xl">
-                <h3 class="font-bold text-lg"><i class="fas fa-calendar-alt mr-2"></i>Agenda tu Cita</h3>
-                <button class="modal-close text-white hover:text-slate-200 text-2xl leading-none">&times;</button>
+    <!-- Agenda Modal -->
+    <div id="agenda-modal" class="modal-overlay fixed inset-0 flex items-center justify-center p-4 z-50 opacity-0 invisible"
+         style="display:none;background:rgba(0,0,0,0.85);">
+        <div class="modal-content glass-modal rounded-2xl w-full max-w-md max-h-[95vh] overflow-hidden flex flex-col"
+             style="border:1px solid rgba(240,180,41,0.2);">
+            <div class="modal-header-gold">
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <i class="fas fa-calendar-alt" style="color:var(--gold);"></i>
+                    <span class="syne" style="font-weight:700;font-size:16px;color:#fff;">Agenda tu Cita</span>
+                </div>
+                <button class="modal-close modal-close-btn">&times;</button>
             </div>
             <div id="agenda-content" class="p-4 overflow-y-auto flex-grow"></div>
         </div>
     </div>
 
-    <div id="services-modal" class="modal-overlay fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 opacity-0 invisible" style="display:none;">
-        <div class="modal-content glass-modal rounded-2xl w-full max-w-md max-h-[90vh] overflow-y-auto">
-            <div class="p-4 border-b flex justify-between items-center bg-gradient-to-r from-sky-500 to-indigo-600 text-white rounded-t-2xl sticky top-0 z-10">
-                <h3 class="font-bold text-lg"><i class="fas fa-list-check mr-2"></i>Servicios</h3>
-                <button class="modal-close text-white hover:text-slate-200 text-2xl leading-none">&times;</button>
+    <!-- Services Modal -->
+    <div id="services-modal" class="modal-overlay fixed inset-0 flex items-center justify-center p-4 z-50 opacity-0 invisible"
+         style="display:none;background:rgba(0,0,0,0.85);">
+        <div class="modal-content glass-modal rounded-2xl w-full max-w-md max-h-[90vh] overflow-y-auto"
+             style="border:1px solid rgba(0,229,255,0.2);">
+            <div class="modal-header-cyan" style="position:sticky;top:0;z-index:10;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <i class="fas fa-list-check" style="color:var(--cyan);"></i>
+                    <span class="syne" style="font-weight:700;font-size:16px;color:#fff;">Servicios</span>
+                </div>
+                <button class="modal-close modal-close-btn">&times;</button>
             </div>
-            <div class="p-4 space-y-4">
-                <div class="flex gap-3 p-3 bg-slate-50 rounded-xl">
-                    <i class="fas fa-id-card text-2xl text-sky-500 mt-1"></i>
-                    <div><h4 class="font-semibold text-slate-800">Tarjeta Básica</h4><p class="text-sm text-slate-600">Datos esenciales y redes sociales.</p><span class="text-sky-600 font-bold">Desde $70.000 COP</span></div>
+            <div class="p-4 space-y-3">
+                <div class="service-card">
+                    <div class="service-icon" style="background:rgba(0,229,255,0.1);">
+                        <i class="fas fa-id-card" style="color:var(--cyan);"></i>
+                    </div>
+                    <div>
+                        <h4 class="syne" style="font-weight:700;font-size:14px;color:#fff;">Tarjeta Básica</h4>
+                        <p style="font-size:12px;color:#777;margin:2px 0;">Datos esenciales y redes sociales.</p>
+                        <span class="price-tag">Desde $70.000 COP</span>
+                    </div>
                 </div>
-                <div class="flex gap-3 p-3 bg-slate-50 rounded-xl">
-                    <i class="fas fa-briefcase text-2xl text-indigo-500 mt-1"></i>
-                    <div><h4 class="font-semibold text-slate-800">Tarjeta Profesional</h4><p class="text-sm text-slate-600">Galería, WhatsApp, QR, ubicación.</p><span class="text-sky-600 font-bold">Desde $120.000 COP</span></div>
+                <div class="service-card">
+                    <div class="service-icon" style="background:rgba(240,180,41,0.1);">
+                        <i class="fas fa-briefcase" style="color:var(--gold);"></i>
+                    </div>
+                    <div>
+                        <h4 class="syne" style="font-weight:700;font-size:14px;color:#fff;">Tarjeta Profesional</h4>
+                        <p style="font-size:12px;color:#777;margin:2px 0;">Galería, WhatsApp, QR, ubicación.</p>
+                        <span class="price-tag">Desde $120.000 COP</span>
+                    </div>
                 </div>
-                <div class="flex gap-3 p-3 bg-slate-50 rounded-xl">
-                    <i class="fas fa-gem text-2xl text-purple-500 mt-1"></i>
-                    <div><h4 class="font-semibold text-slate-800">Tarjeta Premium</h4><p class="text-sm text-slate-600">Agendamiento, animaciones avanzadas.</p><span class="text-sky-600 font-bold">Desde $170.000 COP</span></div>
+                <div class="service-card">
+                    <div class="service-icon" style="background:rgba(168,85,247,0.1);">
+                        <i class="fas fa-gem" style="color:#a855f7;"></i>
+                    </div>
+                    <div>
+                        <h4 class="syne" style="font-weight:700;font-size:14px;color:#fff;">Tarjeta Premium</h4>
+                        <p style="font-size:12px;color:#777;margin:2px 0;">Agendamiento, animaciones avanzadas.</p>
+                        <span class="price-tag">Desde $170.000 COP</span>
+                    </div>
                 </div>
-                <div class="flex gap-3 p-3 bg-slate-50 rounded-xl">
-                    <i class="fas fa-utensils text-2xl text-amber-500 mt-1"></i>
-                    <div><h4 class="font-semibold text-slate-800">Menú Digital</h4><p class="text-sm text-slate-600">Restaurantes: carta interactiva.</p><span class="text-sky-600 font-bold">Desde $150.000 COP</span></div>
+                <div class="service-card">
+                    <div class="service-icon" style="background:rgba(249,115,22,0.1);">
+                        <i class="fas fa-utensils" style="color:var(--orange);"></i>
+                    </div>
+                    <div>
+                        <h4 class="syne" style="font-weight:700;font-size:14px;color:#fff;">Menú Digital</h4>
+                        <p style="font-size:12px;color:#777;margin:2px 0;">Restaurantes: carta interactiva.</p>
+                        <span class="price-tag">Desde $150.000 COP</span>
+                    </div>
                 </div>
-                <div class="flex gap-3 p-3 bg-slate-50 rounded-xl">
-                    <i class="fas fa-rocket text-2xl text-rose-500 mt-1"></i>
-                    <div><h4 class="font-semibold text-slate-800">Mini Landing Page</h4><p class="text-sm text-slate-600">Scroll completo, video, testimonios.</p><span class="text-sky-600 font-bold">Desde $350.000 COP</span></div>
+                <div class="service-card">
+                    <div class="service-icon" style="background:rgba(244,63,94,0.1);">
+                        <i class="fas fa-rocket" style="color:#f43f5e;"></i>
+                    </div>
+                    <div>
+                        <h4 class="syne" style="font-weight:700;font-size:14px;color:#fff;">Mini Landing Page</h4>
+                        <p style="font-size:12px;color:#777;margin:2px 0;">Scroll completo, video, testimonios.</p>
+                        <span class="price-tag">Desde $350.000 COP</span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="portfolio-modal" class="modal-overlay fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 opacity-0 invisible" style="display:none;">
-        <div class="modal-content glass-modal rounded-2xl w-full max-w-lg max-h-[90vh] overflow-hidden flex flex-col">
-            <div class="p-4 border-b flex justify-between items-center bg-gradient-to-r from-sky-500 to-indigo-600 text-white rounded-t-2xl">
-                <h3 class="font-bold text-lg"><i class="fas fa-images mr-2"></i>Nuestro Portafolio</h3>
-                <button class="modal-close text-white hover:text-slate-200 text-2xl leading-none">&times;</button>
+    <!-- Portfolio Modal -->
+    <div id="portfolio-modal" class="modal-overlay fixed inset-0 flex items-center justify-center p-4 z-50 opacity-0 invisible"
+         style="display:none;background:rgba(0,0,0,0.85);">
+        <div class="modal-content glass-modal rounded-2xl w-full max-w-lg max-h-[90vh] overflow-hidden flex flex-col"
+             style="border:1px solid rgba(168,85,247,0.2);">
+            <div style="background:linear-gradient(135deg,rgba(168,85,247,0.15),rgba(0,229,255,0.08));border-bottom:1px solid rgba(168,85,247,0.2);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-radius:16px 16px 0 0;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <i class="fas fa-images" style="color:#a855f7;"></i>
+                    <span class="syne" style="font-weight:700;font-size:16px;color:#fff;">Nuestro Portafolio</span>
+                </div>
+                <button class="modal-close modal-close-btn">&times;</button>
             </div>
             <div class="p-4 overflow-y-auto flex-grow">
-                <p class="text-slate-600 text-sm mb-4 text-center">Modelos de Tarjetas. Toca para ver ampliada.</p>
+                <p style="font-size:12px;color:#666;text-align:center;margin-bottom:12px;font-family:'Syne',sans-serif;letter-spacing:0.04em;">Toca para ver ampliada</p>
                 <div class="carousel-container relative">
                     <div class="carousel-track" id="carousel-track"></div>
-                    <button id="prev-slide" class="absolute top-1/2 left-2 -translate-y-1/2 bg-white/90 rounded-full w-9 h-9 flex items-center justify-center shadow hover:bg-white z-10"><i class="fas fa-chevron-left text-slate-700"></i></button>
-                    <button id="next-slide" class="absolute top-1/2 right-2 -translate-y-1/2 bg-white/90 rounded-full w-9 h-9 flex items-center justify-center shadow hover:bg-white z-10"><i class="fas fa-chevron-right text-slate-700"></i></button>
+                    <button id="prev-slide"
+                            style="position:absolute;top:50%;left:6px;transform:translateY(-50%);background:rgba(0,0,0,0.7);border:1px solid rgba(240,180,41,0.3);border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;z-index:10;cursor:pointer;">
+                        <i class="fas fa-chevron-left" style="color:var(--gold);font-size:13px;"></i>
+                    </button>
+                    <button id="next-slide"
+                            style="position:absolute;top:50%;right:6px;transform:translateY(-50%);background:rgba(0,0,0,0.7);border:1px solid rgba(240,180,41,0.3);border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;z-index:10;cursor:pointer;">
+                        <i class="fas fa-chevron-right" style="color:var(--gold);font-size:13px;"></i>
+                    </button>
                 </div>
                 <div id="carousel-dots" class="flex justify-center gap-2 mt-4"></div>
-                <div class="text-center mt-4">
-                    <button id="view-full-image" class="text-sm text-indigo-600 hover:underline">Ver imagen completa</button>
+                <div class="text-center mt-3">
+                    <button id="view-full-image" style="font-size:12px;color:var(--gold);background:none;border:none;cursor:pointer;font-family:'Syne',sans-serif;letter-spacing:0.04em;">
+                        <i class="fas fa-expand mr-1"></i>Ver imagen completa
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="full-image-modal" class="modal-overlay fixed inset-0 bg-black/90 flex items-center justify-center z-[60] opacity-0 invisible" onclick="this.classList.remove('active')" style="display:none;">
-        <img id="full-image" src="" class="max-w-full max-h-full rounded-lg shadow-2xl" alt="Vista ampliada">
+    <!-- Full Image Modal -->
+    <div id="full-image-modal"
+         class="modal-overlay fixed inset-0 flex items-center justify-center z-[60] opacity-0 invisible"
+         onclick="this.classList.remove('active')"
+         style="display:none;background:rgba(0,0,0,0.95);">
+        <img id="full-image" src="" class="max-w-full max-h-full rounded-lg" style="box-shadow:0 0 40px rgba(240,180,41,0.2);" alt="Vista ampliada">
     </div>
 
-    <div id="install-modal" class="modal-overlay fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 opacity-0 invisible" style="display:none;">
-        <div class="modal-content glass-modal rounded-2xl w-full max-w-md max-h-[90vh] overflow-y-auto">
-            <div class="p-4 border-b flex justify-between items-center bg-gradient-to-r from-sky-500 to-indigo-600 text-white rounded-t-2xl sticky top-0 z-10">
-                <h3 class="font-bold text-lg"><i class="fas fa-download mr-2"></i>Instalar en tu móvil</h3>
-                <button class="modal-close text-white hover:text-slate-200 text-2xl leading-none">&times;</button>
+    <!-- Install Modal -->
+    <div id="install-modal" class="modal-overlay fixed inset-0 flex items-center justify-center p-4 z-50 opacity-0 invisible"
+         style="display:none;background:rgba(0,0,0,0.85);">
+        <div class="modal-content glass-modal rounded-2xl w-full max-w-md max-h-[90vh] overflow-y-auto"
+             style="border:1px solid rgba(129,140,248,0.2);">
+            <div style="background:linear-gradient(135deg,rgba(129,140,248,0.12),rgba(0,229,255,0.08));border-bottom:1px solid rgba(129,140,248,0.2);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-radius:16px 16px 0 0;position:sticky;top:0;z-index:10;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <i class="fas fa-download" style="color:#818cf8;"></i>
+                    <span class="syne" style="font-weight:700;font-size:16px;color:#fff;">Instalar en tu móvil</span>
+                </div>
+                <button class="modal-close modal-close-btn">&times;</button>
             </div>
-            <div class="p-4 space-y-4 text-slate-700">
-                <div class="bg-slate-50 p-4 rounded-xl">
-                    <h4 class="font-semibold text-sky-700"><i class="fab fa-apple"></i> iOS (Safari)</h4>
-                    <ol class="list-decimal ml-5 text-sm mt-2 space-y-1">
-                        <li>Toca <strong>Compartir</strong> <i class="fas fa-share-square"></i></li>
-                        <li>Selecciona <strong>"Añadir a pantalla de inicio"</strong></li>
-                        <li>Confirma con <strong>"Añadir"</strong></li>
+            <div class="p-4 space-y-4">
+                <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:14px;">
+                    <h4 class="syne" style="font-weight:700;font-size:13px;color:var(--cyan);margin-bottom:8px;">
+                        <i class="fab fa-apple mr-2"></i>iOS (Safari)
+                    </h4>
+                    <ol style="list-style:decimal;margin-left:18px;font-size:13px;color:#888;line-height:1.8;font-family:'Plus Jakarta Sans',sans-serif;">
+                        <li>Toca <strong style="color:#ccc;">Compartir</strong> <i class="fas fa-share-square" style="color:#818cf8;"></i></li>
+                        <li>Selecciona <strong style="color:#ccc;">"Añadir a pantalla de inicio"</strong></li>
+                        <li>Confirma con <strong style="color:#ccc;">"Añadir"</strong></li>
                     </ol>
                 </div>
-                <div class="bg-slate-50 p-4 rounded-xl">
-                    <h4 class="font-semibold text-sky-700"><i class="fab fa-android"></i> Android (Chrome)</h4>
-                    <ol class="list-decimal ml-5 text-sm mt-2 space-y-1">
-                        <li>Toca los <strong>tres puntos</strong> <i class="fas fa-ellipsis-v"></i></li>
-                        <li>Selecciona <strong>"Instalar aplicación"</strong></li>
+                <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:14px;">
+                    <h4 class="syne" style="font-weight:700;font-size:13px;color:var(--gold);margin-bottom:8px;">
+                        <i class="fab fa-android mr-2"></i>Android (Chrome)
+                    </h4>
+                    <ol style="list-style:decimal;margin-left:18px;font-size:13px;color:#888;line-height:1.8;font-family:'Plus Jakarta Sans',sans-serif;">
+                        <li>Toca los <strong style="color:#ccc;">tres puntos</strong> <i class="fas fa-ellipsis-v" style="color:var(--gold);"></i></li>
+                        <li>Selecciona <strong style="color:#ccc;">"Instalar aplicación"</strong></li>
                         <li>Confirma la instalación</li>
                     </ol>
                 </div>
@@ -436,267 +809,327 @@
         </div>
     </div>
 
-    <div id="video-modal" class="modal-overlay fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 opacity-0 invisible" style="display:none;">
-        <div class="modal-content glass-modal rounded-2xl w-full max-w-2xl overflow-hidden">
-            <div class="p-4 border-b flex justify-between items-center bg-gradient-to-r from-sky-500 to-indigo-600 text-white">
-                <h3 class="font-bold text-lg"><i class="fas fa-play mr-2"></i>Video Promocional</h3>
-                <button class="modal-close text-white hover:text-slate-200 text-2xl leading-none">&times;</button>
+    <!-- Video Modal -->
+    <div id="video-modal" class="modal-overlay fixed inset-0 flex items-center justify-center p-4 z-50 opacity-0 invisible"
+         style="display:none;background:rgba(0,0,0,0.9);">
+        <div class="modal-content glass-modal rounded-2xl w-full max-w-2xl overflow-hidden"
+             style="border:1px solid rgba(239,68,68,0.2);">
+            <div style="background:linear-gradient(135deg,rgba(239,68,68,0.12),rgba(249,115,22,0.08));border-bottom:1px solid rgba(239,68,68,0.2);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;border-radius:16px 16px 0 0;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <i class="fas fa-play" style="color:#f87171;"></i>
+                    <span class="syne" style="font-weight:700;font-size:16px;color:#fff;">Video Promocional</span>
+                </div>
+                <button class="modal-close modal-close-btn">&times;</button>
             </div>
-            <div class="relative aspect-video bg-slate-800">
-                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/ndRhGLFUlLA" title="Video KONFÍO ZINC" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="absolute inset-0 w-full h-full"></iframe>
+            <div style="position:relative;aspect-ratio:16/9;background:#000;">
+                <iframe width="100%" height="100%"
+                        src="https://www.youtube.com/embed/ndRhGLFUlLA"
+                        title="Video KONFÍO ZINC"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen
+                        style="position:absolute;inset:0;width:100%;height:100%;"></iframe>
             </div>
         </div>
     </div>
 
 
+    <!-- ═══════════════════════════════════════════════════
+         JAVASCRIPT
+    ══════════════════════════════════════════════════════ -->
     <script>
-        (function() {
-            // Core Application Configuration
-            const TU_WHATSAPP = '573206411340';
-            let qrGenerado = false; // Flag para controlar que no se duplique el QR
-            
-            const portfolioImages = [
-                { src: 'https://i.postimg.cc/BvWnVsXt/Whats-App-Image-2026-05-24-at-07-24-13-(1).jpg', title: 'Dra. Isabela Rojas', sub: 'Odontóloga General y Estética Dental' },
-                { src: 'https://i.postimg.cc/7LgZvc2g/Whats-App-Image-2026-05-24-at-07-23-19.jpg', title: 'Dra. Sofía Rodríguez', sub: 'Nutricionista Profesional' },
-                { src: 'https://i.postimg.cc/VNykV1dJ/Whats-App-Image-2026-05-24-at-07-24-13-(3).jpg', title: 'Dra. Ana Pérez', sub: 'Nutricionista Funcional' },
-                { src: 'https://i.postimg.cc/XvMYz3pZ/Whats-App-Image-2026-05-24-at-07-24-13-(4).jpg', title: 'Carolina Carelli', sub: 'Decoradora de Fiestas' },
-                { src: 'https://i.postimg.cc/xdr14Ycb/Whats-App-Image-2026-05-24-at-07-24-13-(5).jpg', title: 'Regina Pereira', sub: 'Nails y Academy' },
-                { src: 'https://i.postimg.cc/bvQwXMtk/Whats-App-Image-2026-05-24-at-07-23-19-(3).jpg', title: 'Juan Pérez', sub: 'Diseñador Gráfico' },
-                { src: 'https://i.postimg.cc/0NgyBxbD/Whats-App-Image-2026-05-24-at-07-24-13-(7).jpg', title: 'Dulce Delicia', sub: 'Pastelería Artesanal' },
-                { src: 'https://i.postimg.cc/Pqm5GcwZ/Whats-App-Image-2026-05-24-at-07-23-19-(2).jpg', title: 'Dra. Amanda Méndez', sub: 'Odontopediatría · Ortodoncia · Estética Dental' }
-            ];
+    (function() {
+        const TU_WHATSAPP = '573206411340';
+        let qrGenerado = false;
 
-            // 1. Modal Handler Framework
-            function setupModal(openBtnId, modalId) {
-                const openBtn = document.getElementById(openBtnId);
-                const modal = document.getElementById(modalId);
-                if (!openBtn || !modal) return;
-                const closeBtn = modal.querySelector('.modal-close');
-                
-                const open = () => {
-                    modal.style.display = 'flex';
-                    setTimeout(() => modal.classList.add('active'), 10);
-                    document.body.style.overflow = 'hidden';
-                    
-                    if (modalId === 'agenda-modal') resetAgenda();
-                    
-                    // SOLUCIÓN: El QR se genera justo cuando el contenedor pasa a ser visible
-                    if (modalId === 'qr-modal' && !qrGenerado) {
-                        generarCodigoQR();
-                    }
-                };
-                const close = () => {
-                    modal.classList.remove('active');
-                    setTimeout(() => { modal.style.display = 'none'; }, 300);
-                    document.body.style.overflow = '';
-                };
-                openBtn.addEventListener('click', open);
-                closeBtn.addEventListener('click', close);
-                modal.addEventListener('click', e => { if (e.target === modal) close(); });
-            }
-            
-            // Binding modals sequentially as seen in UX grid
-            setupModal('agenda-btn', 'agenda-modal');
-            setupModal('services-btn', 'services-modal');
-            setupModal('portfolio-btn', 'portfolio-modal');
-            setupModal('qr-btn', 'qr-modal');
-            setupModal('install-btn', 'install-modal');
-            setupModal('video-btn', 'video-modal');
+        const portfolioImages = [
+            { src: 'https://i.postimg.cc/BvWnVsXt/Whats-App-Image-2026-05-24-at-07-24-13-(1).jpg', title: 'Dra. Isabela Rojas', sub: 'Odontóloga General y Estética Dental' },
+            { src: 'https://i.postimg.cc/7LgZvc2g/Whats-App-Image-2026-05-24-at-07-23-19.jpg', title: 'Dra. Sofía Rodríguez', sub: 'Nutricionista Profesional' },
+            { src: 'https://i.postimg.cc/VNykV1dJ/Whats-App-Image-2026-05-24-at-07-24-13-(3).jpg', title: 'Dra. Ana Pérez', sub: 'Nutricionista Funcional' },
+            { src: 'https://i.postimg.cc/XvMYz3pZ/Whats-App-Image-2026-05-24-at-07-24-13-(4).jpg', title: 'Carolina Carelli', sub: 'Decoradora de Fiestas' },
+            { src: 'https://i.postimg.cc/xdr14Ycb/Whats-App-Image-2026-05-24-at-07-24-13-(5).jpg', title: 'Regina Pereira', sub: 'Nails y Academy' },
+            { src: 'https://i.postimg.cc/bvQwXMtk/Whats-App-Image-2026-05-24-at-07-23-19-(3).jpg', title: 'Juan Pérez', sub: 'Diseñador Gráfico' },
+            { src: 'https://i.postimg.cc/0NgyBxbD/Whats-App-Image-2026-05-24-at-07-24-13-(7).jpg', title: 'Dulce Delicia', sub: 'Pastelería Artesanal' },
+            { src: 'https://i.postimg.cc/Pqm5GcwZ/Whats-App-Image-2026-05-24-at-07-23-19-(2).jpg', title: 'Dra. Amanda Méndez', sub: 'Odontopediatría · Ortodoncia · Estética Dental' }
+        ];
 
-            // Función encargada de instanciar de forma segura el QR
-            function generarCodigoQR() {
-                const container = document.getElementById('qrcode-container');
-                container.innerHTML = ''; // Limpiar residuos por si acaso
-                
-                new QRCode(container, {
-                    text: window.location.href,
-                    width: 160,
-                    height: 160,
-                    colorDark: "#0f172a",
-                    colorLight: "#ffffff",
-                    correctLevel: QRCode.CorrectLevel.H // Nivel de redundancia Máximo (permite centrar logos sin dañar lectura)
-                });
-                qrGenerado = true;
-            }
+        /* ── MODAL FRAMEWORK ─────────────────────────── */
+        function setupModal(openBtnId, modalId) {
+            const openBtn = document.getElementById(openBtnId);
+            const modal   = document.getElementById(modalId);
+            if (!openBtn || !modal) return;
+            const closeBtn = modal.querySelector('.modal-close');
 
-            // 2. Portfolio Carousel Plugin Logic
-            const track = document.getElementById('carousel-track');
-            const dotsContainer = document.getElementById('carousel-dots');
-            const prevBtn = document.getElementById('prev-slide');
-            const nextBtn = document.getElementById('next-slide');
-            let current = 0;
+            const open = () => {
+                modal.style.display = 'flex';
+                setTimeout(() => modal.classList.add('active'), 10);
+                document.body.style.overflow = 'hidden';
+                if (modalId === 'agenda-modal') resetAgenda();
+                if (modalId === 'qr-modal' && !qrGenerado) generarCodigoQR();
+            };
+            const close = () => {
+                modal.classList.remove('active');
+                setTimeout(() => { modal.style.display = 'none'; }, 300);
+                document.body.style.overflow = '';
+            };
+            openBtn.addEventListener('click', open);
+            if (closeBtn) closeBtn.addEventListener('click', close);
+            modal.addEventListener('click', e => { if (e.target === modal) close(); });
+        }
 
-            function buildCarousel() {
-                track.innerHTML = portfolioImages.map(img => `
-                    <div class="carousel-slide">
-                        <div class="bg-white rounded-xl overflow-hidden shadow-md flex flex-col items-center">
-                            <img src="${img.src}" alt="${img.title}" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1e293b/ffffff?text=Tarjeta';">
-                            <div class="p-4 text-center w-full">
-                                <span class="font-semibold text-slate-800 text-sm">${img.title}</span>
-                                <p class="text-xs text-slate-500">${img.sub}</p>
-                            </div>
+        setupModal('agenda-btn',    'agenda-modal');
+        setupModal('services-btn',  'services-modal');
+        setupModal('portfolio-btn', 'portfolio-modal');
+        setupModal('qr-btn',        'qr-modal');
+        setupModal('install-btn',   'install-modal');
+        setupModal('video-btn',     'video-modal');
+        setupModal('qr-badge-btn',  'qr-modal');
+
+        /* ── QR GENERATOR ────────────────────────────── */
+        function generarCodigoQR() {
+            const container = document.getElementById('qrcode-container');
+            container.innerHTML = '';
+            new QRCode(container, {
+                text: window.location.href,
+                width: 160, height: 160,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+            qrGenerado = true;
+        }
+
+        /* ── SAVE CONTACT (vCard) ─────────────────────── */
+        document.getElementById('save-btn').addEventListener('click', () => {
+            const vCard = `BEGIN:VCARD\nVERSION:3.0\nFN:Darwin Montalvo\nORG:KONFÍO ZINC\nTITLE:Creador de Tarjetas Digitales\nTEL;TYPE=CELL:+57 320 641 1340\nEMAIL:confiotv@gmail.com\nURL:${window.location.href}\nEND:VCARD`;
+            const blob = new Blob([vCard], { type: 'text/vcard;charset=utf-8' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'Darwin_Montalvo_KONFIO_ZINC.vcf';
+            document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        });
+
+        /* ── CAROUSEL ────────────────────────────────── */
+        const track        = document.getElementById('carousel-track');
+        const dotsContainer= document.getElementById('carousel-dots');
+        const prevBtn      = document.getElementById('prev-slide');
+        const nextBtn      = document.getElementById('next-slide');
+        let current = 0;
+
+        function buildCarousel() {
+            track.innerHTML = portfolioImages.map(img => `
+                <div class="carousel-slide">
+                    <div style="background:#111;border-radius:12px;overflow:hidden;border:1px solid rgba(240,180,41,0.1);">
+                        <img src="${img.src}" alt="${img.title}"
+                             onerror="this.onerror=null;this.src='https://placehold.co/600x400/111111/F0B429?text=Tarjeta';">
+                        <div style="padding:12px 14px;">
+                            <span style="font-weight:700;font-size:13px;color:#fff;font-family:'Syne',sans-serif;">${img.title}</span>
+                            <p style="font-size:11px;color:#666;margin:2px 0 0;">${img.sub}</p>
                         </div>
                     </div>
-                `).join('');
-                dotsContainer.innerHTML = portfolioImages.map((_, i) => `<span class="carousel-dot ${i===0?'active':''}" data-index="${i}"></span>`).join('');
-                dotsContainer.querySelectorAll('.carousel-dot').forEach(dot => {
-                    dot.addEventListener('click', () => { current = parseInt(dot.dataset.index); update(); });
-                });
-                update();
-            }
-            
-            function update() {
-                track.style.transform = `translateX(-${current * 100}%)`;
-                dotsContainer.querySelectorAll('.carousel-dot').forEach((d, i) => d.classList.toggle('active', i === current));
-            }
-            
-            nextBtn.addEventListener('click', () => { current = (current + 1) % portfolioImages.length; update(); });
-            prevBtn.addEventListener('click', () => { current = (current - 1 + portfolioImages.length) % portfolioImages.length; update(); });
-            buildCarousel();
-
-            // Lightbox functionality
-            document.getElementById('view-full-image').addEventListener('click', () => {
-                const fullModal = document.getElementById('full-image-modal');
-                const fullImg = document.getElementById('full-image');
-                fullImg.src = portfolioImages[current].src;
-                fullModal.style.display = 'flex';
-                setTimeout(() => fullModal.classList.add('active'), 10);
+                </div>
+            `).join('');
+            dotsContainer.innerHTML = portfolioImages.map((_, i) =>
+                `<span class="carousel-dot ${i===0?'active':''}" data-index="${i}"></span>`
+            ).join('');
+            dotsContainer.querySelectorAll('.carousel-dot').forEach(dot => {
+                dot.addEventListener('click', () => { current = parseInt(dot.dataset.index); update(); });
             });
+            update();
+        }
 
-            // Native Web Share Engine fallback
-            const shareBtn = document.getElementById('native-share-btn');
-            if (navigator.share) {
-                shareBtn.classList.remove('hidden');
-                shareBtn.addEventListener('click', () => navigator.share({ title: 'KONFÍO ZINC', text: 'Tarjeta digital inteligente', url: window.location.href }));
+        function update() {
+            track.style.transform = `translateX(-${current * 100}%)`;
+            dotsContainer.querySelectorAll('.carousel-dot').forEach((d,i) => d.classList.toggle('active', i===current));
+        }
+
+        nextBtn.addEventListener('click', () => { current = (current + 1) % portfolioImages.length; update(); });
+        prevBtn.addEventListener('click', () => { current = (current - 1 + portfolioImages.length) % portfolioImages.length; update(); });
+        buildCarousel();
+
+        /* Lightbox */
+        document.getElementById('view-full-image').addEventListener('click', () => {
+            const m = document.getElementById('full-image-modal');
+            const img = document.getElementById('full-image');
+            img.src = portfolioImages[current].src;
+            m.style.display = 'flex';
+            setTimeout(() => m.classList.add('active'), 10);
+        });
+
+        /* ── NATIVE SHARE ────────────────────────────── */
+        const shareBtn = document.getElementById('native-share-btn');
+        if (navigator.share) {
+            shareBtn.classList.remove('hidden');
+            shareBtn.addEventListener('click', () =>
+                navigator.share({ title: 'KONFÍO ZINC', text: 'Tarjeta digital inteligente', url: window.location.href })
+            );
+        }
+
+        /* ── BOOKING CALENDAR ────────────────────────── */
+        let currentMonth, currentYear, selectedDate, selectedTime;
+
+        function resetAgenda() {
+            currentMonth = new Date().getMonth();
+            currentYear  = new Date().getFullYear();
+            selectedDate = null; selectedTime = null;
+            renderCalendar();
+        }
+
+        function renderCalendar() {
+            const firstDay    = new Date(currentYear, currentMonth, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            const today = new Date(); today.setHours(0,0,0,0);
+            const monthNames = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+            const dayNames   = ["Do","Lu","Ma","Mi","Ju","Vi","Sá"];
+
+            let html = `
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+                    <button id="prevMonth" style="padding:8px 12px;border-radius:8px;background:rgba(240,180,41,0.08);border:1px solid rgba(240,180,41,0.2);color:var(--gold);cursor:pointer;font-size:14px;">&#8592;</button>
+                    <h4 class="syne" style="font-weight:700;font-size:15px;color:#fff;">${monthNames[currentMonth]} ${currentYear}</h4>
+                    <button id="nextMonth" style="padding:8px 12px;border-radius:8px;background:rgba(240,180,41,0.08);border:1px solid rgba(240,180,41,0.2);color:var(--gold);cursor:pointer;font-size:14px;">&#8594;</button>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center;margin-bottom:8px;">
+                    ${dayNames.map(d=>`<div style="font-size:11px;color:#555;font-family:'Syne',sans-serif;font-weight:600;padding:4px 0;">${d}</div>`).join('')}
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center;">`;
+
+            for (let i=0; i<firstDay; i++) html += '<div></div>';
+            for (let d=1; d<=daysInMonth; d++) {
+                const date  = new Date(currentYear, currentMonth, d);
+                const isPast= date < today;
+                const isToday=date.getTime()===today.getTime();
+                const isSun = date.getDay()===0;
+                const isSel = selectedDate && date.toDateString()===selectedDate.toDateString();
+                let cls = 'calendar-day';
+                if (isPast || isSun) cls += ' disabled';
+                if (isToday) cls += ' today';
+                if (isSel) cls += ' selected';
+                const click = (!isPast && !isSun)
+                    ? `onclick="window.agendaSelectDay(${d},${currentMonth},${currentYear})"` : '';
+                html += `<div class="${cls}" ${click}>${d}</div>`;
             }
-
-            // 4. vCard Download / Save Contact Feature
-            document.getElementById('save-btn').addEventListener('click', () => {
-                const vCard = `BEGIN:VCARD\nVERSION:3.0\nFN:Darwin Montalvo\nORG:KONFÍO ZINC\nTITLE:Creador de Tarjetas Digitales\nTEL;TYPE=CELL:+57 320 641 1340\nEMAIL:confiotv@gmail.com\nURL:${window.location.href}\nEND:VCARD`;
-                const blob = new Blob([vCard], { type: 'text/vcard;charset=utf-8' });
-                const a = document.createElement('a');
-                a.href = URL.createObjectURL(blob);
-                a.download = 'Darwin_Montalvo_KONFIO_ZINC.vcf';
-                document.body.appendChild(a); a.click(); document.body.removeChild(a);
+            html += '</div>';
+            document.getElementById('agenda-content').innerHTML = html;
+            document.getElementById('prevMonth').addEventListener('click', ()=>{
+                currentMonth--; if(currentMonth<0){currentMonth=11;currentYear--;} renderCalendar();
             });
+            document.getElementById('nextMonth').addEventListener('click', ()=>{
+                currentMonth++; if(currentMonth>11){currentMonth=0;currentYear++;} renderCalendar();
+            });
+        }
 
-            // 5. Intelligent Calendar & Dynamic Scheduler Engine
-            let currentMonth, currentYear, selectedDate, selectedTime;
+        window.agendaSelectDay = function(day, month, year) {
+            selectedDate = new Date(year, month, day);
+            renderTimeSlots();
+        };
 
-            function resetAgenda() {
-                currentMonth = new Date().getMonth();
-                currentYear = new Date().getFullYear();
-                selectedDate = null; selectedTime = null;
-                renderCalendar();
-            }
+        function renderTimeSlots() {
+            const dow = selectedDate.getDay();
+            let times = [];
+            if (dow>=1 && dow<=5) times = ['09:00','09:30','10:00','10:30','11:00','11:30','14:00','14:30','15:00','15:30','16:00','16:30'];
+            else if (dow===6)    times = ['09:00','09:30','10:00','10:30','11:00','11:30'];
+            const dateStr = selectedDate.toLocaleDateString('es-ES', { weekday:'long', day:'numeric', month:'long' });
 
-            function renderCalendar() {
-                const firstDay = new Date(currentYear, currentMonth, 1).getDay();
-                const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-                const today = new Date(); today.setHours(0,0,0,0);
-                const monthNames = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
-                const dayNames = ["Do","Lu","Ma","Mi","Ju","Vi","Sá"];
-                
-                let html = `<div class="flex justify-between mb-4"><button id="prevMonth" class="p-2 hover:bg-gray-100 rounded">&larr;</button><h4 class="font-semibold text-lg text-slate-800">${monthNames[currentMonth]} ${currentYear}</h4><button id="nextMonth" class="p-2 hover:bg-gray-100 rounded">&rarr;</button></div><div class="grid grid-cols-7 gap-1 text-center text-xs text-slate-500 font-semibold mb-2">${dayNames.map(d=>`<div>${d}</div>`).join('')}</div><div class="grid grid-cols-7 gap-1 text-center">`;
-                
-                for (let i=0; i<firstDay; i++) html += '<div></div>';
-                for (let d=1; d<=daysInMonth; d++) {
-                    const date = new Date(currentYear, currentMonth, d);
-                    const isPast = date < today;
-                    const isToday = date.getTime() === today.getTime();
-                    const isSun = date.getDay() === 0;
-                    const isSel = selectedDate && date.toDateString() === selectedDate.toDateString();
-                    let cls = 'calendar-day p-2 rounded-full text-sm ';
-                    if (isPast || isSun) cls += 'disabled';
-                    if (isToday) cls += ' today';
-                    if (isSel) cls += ' selected';
-                    const click = (!isPast && !isSun) ? `onclick="window.agendaSelectDay(${d},${currentMonth},${currentYear})"` : '';
-                    html += `<div class="${cls}" ${click}>${d}</div>`;
-                }
-                html += '</div>';
-                document.getElementById('agenda-content').innerHTML = html;
-                document.getElementById('prevMonth').addEventListener('click', ()=>{ currentMonth--; if(currentMonth<0){currentMonth=11; currentYear--;} renderCalendar(); });
-                document.getElementById('nextMonth').addEventListener('click', ()=>{ currentMonth++; if(currentMonth>11){currentMonth=0; currentYear++;} renderCalendar(); });
-            }
+            let html = `
+                <button id="backCal" style="font-size:12px;color:var(--gold);font-family:'Syne',sans-serif;font-weight:600;margin-bottom:12px;background:none;border:none;cursor:pointer;letter-spacing:0.04em;">← Volver</button>
+                <p style="font-size:13px;color:#aaa;font-weight:600;font-family:'Syne',sans-serif;margin-bottom:12px;text-transform:capitalize;">${dateStr}</p>
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">`;
+            times.forEach(t => {
+                html += `<div class="time-slot" data-time="${t}">${t}</div>`;
+            });
+            html += `</div>
+                <button id="confirmBtn"
+                        style="width:100%;margin-top:20px;padding:12px;background:linear-gradient(135deg,var(--gold),var(--orange));color:#000;font-weight:700;border-radius:12px;border:none;cursor:pointer;font-family:'Syne',sans-serif;font-size:14px;opacity:0.4;pointer-events:none;"
+                        disabled>Continuar →</button>`;
 
-            window.agendaSelectDay = function(day, month, year) {
-                selectedDate = new Date(year, month, day);
-                renderTimeSlots();
-            };
+            document.getElementById('agenda-content').innerHTML = html;
+            document.getElementById('backCal').addEventListener('click', resetAgenda);
+            const confirmBtn = document.getElementById('confirmBtn');
 
-            function renderTimeSlots() {
-                const dow = selectedDate.getDay();
-                let times = [];
-                if (dow>=1 && dow<=5) times = ['09:00','09:30','10:00','10:30','11:00','11:30','14:00','14:30','15:00','15:30','16:00','16:30'];
-                else if (dow===6) times = ['09:00','09:30','10:00','10:30','11:00','11:30'];
-                const dateStr = selectedDate.toLocaleDateString('es-ES', { weekday:'long', day:'numeric', month:'long' });
-                
-                let html = `<button id="backCal" class="text-sm text-orange-600 hover:underline font-semibold mb-3">&larr; Volver</button><p class="text-slate-700 font-semibold mb-3">${dateStr}</p><div class="grid grid-cols-3 gap-2">`;
-                times.forEach(t => { html += `<div class="time-slot p-2 rounded-lg text-center text-sm cursor-pointer" data-time="${t}">${t}</div>`; });
-                html += `</div><button id="confirmBtn" class="w-full mt-6 py-3 bg-orange-500 text-white font-bold rounded-lg hover:bg-orange-600 disabled:bg-gray-400 disabled:cursor-not-allowed" disabled>Continuar</button>`;
-                
-                document.getElementById('agenda-content').innerHTML = html;
-                document.getElementById('backCal').addEventListener('click', resetAgenda);
-                const confirmBtn = document.getElementById('confirmBtn');
-                
-                document.querySelectorAll('.time-slot').forEach(slot => {
-                    slot.addEventListener('click', function() {
-                        document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
-                        this.classList.add('selected');
-                        selectedTime = this.dataset.time;
-                        confirmBtn.disabled = false;
-                    });
+            document.querySelectorAll('.time-slot').forEach(slot => {
+                slot.addEventListener('click', function() {
+                    document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedTime = this.dataset.time;
+                    confirmBtn.disabled = false;
+                    confirmBtn.style.opacity = '1';
+                    confirmBtn.style.pointerEvents = 'auto';
                 });
-                confirmBtn.addEventListener('click', () => { showForm(); });
-            }
+            });
+            confirmBtn.addEventListener('click', showForm);
+        }
 
-            function showForm() {
-                const dateStr = selectedDate.toLocaleDateString('es-ES', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
-                const html = `
-                    <button id="backForm" class="text-sm text-orange-600 hover:underline font-semibold mb-3">&larr; Volver</button>
-                    <p class="text-slate-700 font-semibold mb-3">${dateStr} a las ${selectedTime}</p>
-                    <form id="agenda-form" class="space-y-4">
-                        <div><label class="block text-sm font-medium text-slate-700 mb-1">Tu nombre *</label><input type="text" id="nombre" required class="w-full p-3 border border-gray-300 rounded-lg text-sm" placeholder="Ej: María García"></div>
-                        <div><label class="block text-sm font-medium text-slate-700 mb-1">Correo electrónico *</label><input type="email" id="email" required class="w-full p-3 border border-gray-300 rounded-lg text-sm" placeholder="Ej: maria@email.com"></div>
-                        <div><label class="block text-sm font-medium text-slate-700 mb-1">Motivo de la consulta</label><select id="motivo" class="w-full p-3 border border-gray-300 rounded-lg text-sm"><option value="Tarjeta Básica">Tarjeta Básica</option><option value="Tarjeta Profesional">Tarjeta Profesional</option><option value="Tarjeta Premium">Tarjeta Premium</option><option value="Menú Digital">Menú Digital</option><option value="Mini Landing Page">Mini Landing Page</option><option value="Otro">Otro</option></select></div>
-                        <div><label class="block text-sm font-medium text-slate-700 mb-1">Mensaje adicional</label><textarea id="mensaje" rows="3" class="w-full p-3 border border-gray-300 rounded-lg text-sm" placeholder="Cuéntame más sobre tu proyecto..."></textarea></div>
-                        <button type="submit" class="w-full py-3 bg-green-500 text-white font-bold rounded-lg hover:bg-green-600 transition"><i class="fas fa-check mr-2"></i>Confirmar y Enviar</button>
-                    </form>
-                `;
-                document.getElementById('agenda-content').innerHTML = html;
-                document.getElementById('backForm').addEventListener('click', renderTimeSlots);
+        function showForm() {
+            const dateStr = selectedDate.toLocaleDateString('es-ES', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+            const html = `
+                <button id="backForm" style="font-size:12px;color:var(--gold);font-family:'Syne',sans-serif;font-weight:600;margin-bottom:12px;background:none;border:none;cursor:pointer;letter-spacing:0.04em;">← Volver</button>
+                <p style="font-size:13px;color:#aaa;font-family:'Syne',sans-serif;margin-bottom:16px;text-transform:capitalize;">${dateStr} · ${selectedTime}</p>
+                <div style="display:flex;flex-direction:column;gap:12px;">
+                    <div>
+                        <label class="dark-label">Tu nombre *</label>
+                        <input type="text" id="nombre" required class="dark-input" placeholder="Ej: María García">
+                    </div>
+                    <div>
+                        <label class="dark-label">Correo electrónico *</label>
+                        <input type="email" id="email" required class="dark-input" placeholder="Ej: maria@email.com">
+                    </div>
+                    <div>
+                        <label class="dark-label">Motivo de la consulta</label>
+                        <select id="motivo" class="dark-input" style="cursor:pointer;">
+                            <option value="Tarjeta Básica">Tarjeta Básica</option>
+                            <option value="Tarjeta Profesional">Tarjeta Profesional</option>
+                            <option value="Tarjeta Premium">Tarjeta Premium</option>
+                            <option value="Menú Digital">Menú Digital</option>
+                            <option value="Mini Landing Page">Mini Landing Page</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="dark-label">Mensaje adicional</label>
+                        <textarea id="mensaje" rows="3" class="dark-input" style="resize:none;" placeholder="Cuéntame más sobre tu proyecto..."></textarea>
+                    </div>
+                    <button id="submitForm"
+                            style="width:100%;padding:13px;background:linear-gradient(135deg,var(--gold),var(--orange));color:#000;font-weight:700;border-radius:12px;border:none;cursor:pointer;font-family:'Syne',sans-serif;font-size:14px;letter-spacing:0.04em;">
+                        <i class="fas fa-check mr-2"></i>Confirmar y Enviar
+                    </button>
+                </div>`;
+            document.getElementById('agenda-content').innerHTML = html;
+            document.getElementById('backForm').addEventListener('click', renderTimeSlots);
+            document.getElementById('submitForm').addEventListener('click', function() {
+                const nombre  = document.getElementById('nombre').value.trim();
+                const email   = document.getElementById('email').value.trim();
+                const motivo  = document.getElementById('motivo').value;
+                const mensaje = document.getElementById('mensaje').value.trim();
+                if (!nombre || !email) { alert('Por favor completa al menos tu nombre y correo electrónico.'); return; }
 
-                document.getElementById('agenda-form').addEventListener('submit', async function(e) {
-                    e.preventDefault();
-                    const nombre = document.getElementById('nombre').value.trim();
-                    const email = document.getElementById('email').value.trim();
-                    const motivo = document.getElementById('motivo').value;
-                    const mensaje = document.getElementById('mensaje').value.trim();
-                    if (!nombre || !email) { alert('Por favor completa al menos tu nombre y correo electrónico.'); return; }
+                const textoWA = `✅ *NUEVA CITA AGENDADA*%0A%0A📅 *Fecha:* ${dateStr}%0A🕐 *Hora:* ${selectedTime}%0A👤 *Nombre:* ${nombre}%0A📧 *Email:* ${email}%0A🎯 *Motivo:* ${motivo}%0A💬 *Mensaje:* ${mensaje||'No especificado'}`;
 
-                    const textoWhatsApp = `✅ *NUEVA CITA AGENDADA*%0A%0A📅 *Fecha:* ${dateStr}%0A🕐 *Hora:* ${selectedTime}%0A👤 *Nombre:* ${nombre}%0A📧 *Email:* ${email}%0A🎯 *Motivo:* ${motivo}%0A💬 *Mensaje:* ${mensaje || 'No especificado'}`;
-
-                    document.getElementById('agenda-content').innerHTML = `
-                        <div class="text-center py-8">
-                            <div class="text-6xl text-green-500 mb-4"><i class="fas fa-check-circle"></i></div>
-                            <h2 class="text-xl font-bold text-slate-800 mb-2">¡Cita Confirmada!</h2>
-                            <p class="text-slate-600">Tu cita está agendada para el</p>
-                            <p class="font-semibold text-slate-800 text-lg my-2 bg-slate-100 p-2 rounded-lg">${dateStr} a las ${selectedTime}</p>
-                            <p class="text-sm text-slate-500 mt-4">Te contactaremos pronto. ¡Gracias!</p>
-                            <button id="closeAgenda" class="mt-6 w-full py-3 bg-orange-500 text-white font-bold rounded-lg">Cerrar</button>
-                            <a href="https://wa.me/${TU_WHATSAPP}?text=${textoWhatsApp}" target="_blank" class="mt-3 w-full py-3 bg-green-500 text-white font-bold rounded-lg inline-block"><i class="fab fa-whatsapp mr-2"></i>Abrir WhatsApp</a>
-                        </div>`;
-                    document.getElementById('closeAgenda').addEventListener('click', () => {
-                        document.getElementById('agenda-modal').classList.remove('active');
-                        setTimeout(() => { document.getElementById('agenda-modal').style.display = 'none'; }, 300);
-                        document.body.style.overflow = '';
-                    });
+                document.getElementById('agenda-content').innerHTML = `
+                    <div style="text-align:center;padding:32px 16px;">
+                        <div style="font-size:56px;margin-bottom:12px;">✅</div>
+                        <h2 class="syne" style="font-size:20px;font-weight:800;color:#fff;margin-bottom:6px;">¡Cita Confirmada!</h2>
+                        <p style="font-size:13px;color:#666;margin-bottom:8px;">Tu cita está agendada para el</p>
+                        <p class="syne" style="font-size:14px;font-weight:700;color:var(--gold);background:rgba(240,180,41,0.08);border:1px solid rgba(240,180,41,0.2);padding:10px 16px;border-radius:10px;margin-bottom:16px;text-transform:capitalize;">${dateStr} · ${selectedTime}</p>
+                        <p style="font-size:12px;color:#555;">Te contactaremos pronto. ¡Gracias!</p>
+                        <button id="closeAgenda" style="margin-top:16px;width:100%;padding:12px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#fff;border-radius:12px;cursor:pointer;font-family:'Syne',sans-serif;font-size:13px;">Cerrar</button>
+                        <a href="https://wa.me/${TU_WHATSAPP}?text=${textoWA}" target="_blank"
+                           style="margin-top:10px;width:100%;padding:12px;background:linear-gradient(135deg,#25D366,#1da851);color:#fff;border-radius:12px;display:block;text-align:center;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;text-decoration:none;">
+                            <i class="fab fa-whatsapp mr-2"></i>Abrir WhatsApp
+                        </a>
+                    </div>`;
+                document.getElementById('closeAgenda').addEventListener('click', () => {
+                    const m = document.getElementById('agenda-modal');
+                    m.classList.remove('active');
+                    setTimeout(() => { m.style.display='none'; }, 300);
+                    document.body.style.overflow = '';
                 });
-            }
+            });
+        }
 
-            resetAgenda();
-            window.resetAgenda = resetAgenda;
-        })();
+        resetAgenda();
+        window.resetAgenda = resetAgenda;
+
+    })();
     </script>
 </body>
 </html>
