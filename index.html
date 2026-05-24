@@ -14,6 +14,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
     <style>
+        /* 1. Base Components */
         body {
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
@@ -41,6 +42,8 @@
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
         }
+
+        /* 2. Brand & UI Accents */
         .text-gradient {
             background: linear-gradient(135deg, #38bdf8, #a78bfa);
             -webkit-background-clip: text;
@@ -65,6 +68,7 @@
             transform: scale(0.95);
         }
 
+        /* 3. Header & Profile Elements */
         .profile-banner {
             position: relative;
             width: 100%;
@@ -86,7 +90,6 @@
             height: 80px;
             background: linear-gradient(to top, rgba(15, 23, 42, 1) 0%, rgba(15, 23, 42, 0.6) 60%, transparent 100%);
         }
-
         .logo-3d {
             position: absolute;
             top: 16px;
@@ -103,6 +106,7 @@
             transform: perspective(600px) rotateY(-6deg) rotateX(4deg);
         }
 
+        /* 4. Core Animations */
         @keyframes ripple-expand {
             0% { transform: scale(0.9); opacity: 0.8; }
             100% { transform: scale(1.6); opacity: 0; }
@@ -113,6 +117,32 @@
             width: 100%; height: 100%; animation: ripple-expand 1.8s ease-out infinite;
         }
 
+        .solicita-btn-wrapper { position: relative; display: inline-block; }
+        .solicita-btn-wrapper .btn-inner { position: relative; z-index: 1; }
+        .solicita-btn-wrapper::before {
+            content: ''; position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: calc(100% + 16px); height: calc(100% + 16px);
+            border-radius: 9999px; border: 2px solid rgba(99,102,241,0.5);
+            pointer-events: none; z-index: 0;
+            animation: ripple-expand-sol 2.2s ease-out infinite;
+        }
+        @keyframes ripple-expand-sol {
+            0% { width: calc(100% + 8px); height: calc(100% + 8px); opacity: 0.8; }
+            100% { width: calc(100% + 50px); height: calc(100% + 50px); opacity: 0; }
+        }
+
+        .call-btn-glow {
+            animation: call-glow 2s ease-in-out infinite;
+            background: rgba(34,197,94,0.15);
+            border: 1.5px solid rgba(34,197,94,0.5);
+        }
+        @keyframes call-glow {
+            0%, 100% { box-shadow: 0 0 8px rgba(34,197,94,0.4); }
+            50% { box-shadow: 0 0 18px rgba(34,197,94,0.7); }
+        }
+
+        /* 5. Floating Elements */
         .card-wrapper { position: relative; }
         .whatsapp-float {
             position: absolute;
@@ -142,31 +172,7 @@
             100% { width: 100px; height: 100px; opacity: 0; }
         }
 
-        .solicita-btn-wrapper { position: relative; display: inline-block; }
-        .solicita-btn-wrapper .btn-inner { position: relative; z-index: 1; }
-        .solicita-btn-wrapper::before {
-            content: ''; position: absolute; top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: calc(100% + 16px); height: calc(100% + 16px);
-            border-radius: 9999px; border: 2px solid rgba(99,102,241,0.5);
-            pointer-events: none; z-index: 0;
-            animation: ripple-expand-sol 2.2s ease-out infinite;
-        }
-        @keyframes ripple-expand-sol {
-            0% { width: calc(100% + 8px); height: calc(100% + 8px); opacity: 0.8; }
-            100% { width: calc(100% + 50px); height: calc(100% + 50px); opacity: 0; }
-        }
-
-        .call-btn-glow {
-            animation: call-glow 2s ease-in-out infinite;
-            background: rgba(34,197,94,0.15);
-            border: 1.5px solid rgba(34,197,94,0.5);
-        }
-        @keyframes call-glow {
-            0%, 100% { box-shadow: 0 0 8px rgba(34,197,94,0.4); }
-            50% { box-shadow: 0 0 18px rgba(34,197,94,0.7); }
-        }
-
+        /* 6. Modals UI */
         .modal-overlay {
             transition: opacity 0.3s ease, visibility 0.3s ease;
         }
@@ -178,6 +184,7 @@
         }
         .modal-overlay.active .modal-content { transform: scale(1) translateY(0); opacity: 1; }
 
+        /* 7. Carousel Plugin Styles */
         .carousel-container { position: relative; overflow: hidden; }
         .carousel-track { display: flex; transition: transform 0.4s ease; }
         .carousel-slide { min-width: 100%; padding: 0 4px; }
@@ -195,6 +202,7 @@
         }
         .carousel-dot.active { background: #6366f1; width: 20px; border-radius: 4px; }
 
+        /* 8. Booking Calendar Styles */
         .calendar-day { transition: all 0.2s; padding: 8px 0; }
         .calendar-day:not(.disabled):active { background-color: #e0e7ff; }
         .calendar-day.disabled { color: #cbd5e1; }
@@ -205,18 +213,13 @@
     </style>
 </head>
 <body>
+
     <div class="w-full max-w-sm glass-card rounded-3xl shadow-2xl overflow-hidden border border-white/20 card-wrapper">
-
+        
         <div class="profile-banner">
-            <img src="https://i.postimg.cc/tTBypHCZ/Whats-App-Image-2026-05-24-at-07-06-16.jpg"
-                 alt="Logo KONFÍO ZINC"
-                 onerror="this.onerror=null;this.src='https://placehold.co/400x220/0f172a/38bdf8?text=KONF%C3%8DO+ZINC';">
+            <img src="https://i.postimg.cc/tTBypHCZ/Whats-App-Image-2026-05-24-at-07-06-16.jpg" alt="Logo KONFÍO ZINC" onerror="this.onerror=null;this.src='https://placehold.co/400x220/0f172a/38bdf8?text=KONF%C3%8DO+ZINC';">
         </div>
-
-        <img src="https://i.postimg.cc/L8Ns16L1/Whats-App-Image-2026-05-10-at-14-52-22.jpg"
-             alt="Darwin Montalvo"
-             class="logo-3d"
-             onerror="this.onerror=null;this.src='https://placehold.co/52x52/1e293b/38bdf8?text=DM';">
+        <img src="https://i.postimg.cc/L8Ns16L1/Whats-App-Image-2026-05-10-at-14-52-22.jpg" alt="Darwin Montalvo" class="logo-3d" onerror="this.onerror=null;this.src='https://placehold.co/52x52/1e293b/38bdf8?text=DM';">
 
         <div class="relative -mt-10 pt-2 pb-6 px-5 text-center">
             <h1 class="text-2xl font-bold text-white mt-2 tracking-tight">Darwin Montalvo</h1>
@@ -224,9 +227,7 @@
             <p class="text-slate-300 text-sm mt-2 max-w-xs mx-auto">Tarjetas digitales interactivas que transforman tu presencia profesional</p>
 
             <div class="solicita-btn-wrapper mt-6">
-                <a href="https://wa.me/573206411340?text=Hola%20Darwin%2C%20quiero%20mi%20tarjeta%20digital%20personalizada"
-                   target="_blank"
-                   class="btn-gradient btn-inner inline-flex items-center justify-center px-8 py-3 rounded-full text-white font-bold text-lg gap-2 w-full">
+                <a href="https://wa.me/573206411340?text=Hola%20Darwin%2C%20quiero%20mi%20tarjeta%20digital%20personalizada" target="_blank" class="btn-gradient btn-inner inline-flex items-center justify-center px-8 py-3 rounded-full text-white font-bold text-lg gap-2 w-full">
                     <i class="fas fa-magic"></i> Solicita tu tarjeta
                 </a>
             </div>
@@ -234,19 +235,13 @@
 
         <div class="px-6 pb-2">
             <div class="flex justify-center gap-4">
-                <a href="https://www.facebook.com/profile.php?id=61589654555930"
-                   class="ripple-container social-ripple flex items-center justify-center w-10 h-10 rounded-full text-white text-lg"
-                   style="background: #1877F2; position: relative; z-index: 1;">
+                <a href="https://www.facebook.com/profile.php?id=61589654555930" target="_blank" class="ripple-container social-ripple flex items-center justify-center w-10 h-10 rounded-full text-white text-lg" style="background: #1877F2; position: relative; z-index: 1;">
                     <i class="fab fa-facebook-f"></i>
                 </a>
-                <a href="" target="_blank"
-                   class="ripple-container social-ripple flex items-center justify-center w-10 h-10 rounded-full text-white text-lg"
-                   style="background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); position: relative; z-index: 1;">
+                <a href="https://www.instagram.com/konfiozinc" target="_blank" class="ripple-container social-ripple flex items-center justify-center w-10 h-10 rounded-full text-white text-lg" style="background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); position: relative; z-index: 1;">
                     <i class="fab fa-instagram"></i>
                 </a>
-                <a href="https://www.tiktok.com/@konfiozinc?_r=1&_t=ZS-96N3Vmh92tJ" target="_blank"
-                   class="ripple-container social-ripple flex items-center justify-center w-10 h-10 rounded-full text-white text-lg"
-                   style="background: #000; border: 1.5px solid #ffffff33; position: relative; z-index: 1;">
+                <a href="https://www.tiktok.com/@konfiozinc?_r=1&_t=ZS-96N3Vmh92tJ" target="_blank" class="ripple-container social-ripple flex items-center justify-center w-10 h-10 rounded-full text-white text-lg" style="background: #000; border: 1.5px solid #ffffff33; position: relative; z-index: 1;">
                     <i class="fab fa-tiktok"></i>
                 </a>
             </div>
@@ -255,92 +250,67 @@
         <div class="px-6 pb-4 mt-3">
             <p class="text-slate-400 text-xs text-center mb-4">Toca los íconos para interactuar</p>
             <div class="grid grid-cols-4 gap-3">
-                <a href="tel:+573206411340"
-                   class="icon-box call-btn-glow flex flex-col items-center justify-center p-3 rounded-xl text-white text-center">
+                <a href="tel:+573206411340" class="icon-box call-btn-glow flex flex-col items-center justify-center p-3 rounded-xl text-white text-center">
                     <i class="fas fa-phone-alt text-2xl mb-1 text-green-400"></i>
                     <span class="text-[10px]">Llamar</span>
                 </a>
-                <button id="agenda-btn"
-                        class="icon-box flex flex-col items-center justify-center p-3 rounded-xl text-white text-center cursor-pointer">
+                <button id="agenda-btn" class="icon-box flex flex-col items-center justify-center p-3 rounded-xl text-white text-center cursor-pointer">
                     <i class="fas fa-calendar-alt text-2xl mb-1 text-orange-400"></i>
                     <span class="text-[10px]">Agenda tu cita</span>
                 </button>
-                <a href="mailto:konfiozinc@gmail.com"
-                   class="icon-box flex flex-col items-center justify-center p-3 rounded-xl text-white text-center">
+                <a href="mailto:konfiozinc@gmail.com" class="icon-box flex flex-col items-center justify-center p-3 rounded-xl text-white text-center">
                     <i class="fas fa-envelope text-2xl mb-1 text-amber-400"></i>
                     <span class="text-[10px]">Correo</span>
                 </a>
-                <button id="portfolio-btn"
-                        class="icon-box flex flex-col items-center justify-center p-3 rounded-xl text-white text-center cursor-pointer">
-                    <i class="fas fa-images text-2xl mb-1 text-purple-400"></i>
-                    <span class="text-[10px]">Portafolio</span>
-                </button>
-                <button id="services-btn"
-                        class="icon-box flex flex-col items-center justify-center p-3 rounded-xl text-white text-center cursor-pointer">
+                <button id="services-btn" class="icon-box flex flex-col items-center justify-center p-3 rounded-xl text-white text-center cursor-pointer">
                     <i class="fas fa-list-check text-2xl mb-1 text-cyan-400"></i>
                     <span class="text-[10px]">Servicios</span>
                 </button>
-                <button id="qr-btn"
-                        class="icon-box flex flex-col items-center justify-center p-3 rounded-xl text-white text-center cursor-pointer">
+
+                <button id="portfolio-btn" class="icon-box flex flex-col items-center justify-center p-3 rounded-xl text-white text-center cursor-pointer">
+                    <i class="fas fa-images text-2xl mb-1 text-purple-400"></i>
+                    <span class="text-[10px]">Portafolio</span>
+                </button>
+                <button id="qr-btn" class="icon-box flex flex-col items-center justify-center p-3 rounded-xl text-white text-center cursor-pointer">
                     <i class="fas fa-qrcode text-2xl mb-1 text-teal-400"></i>
                     <span class="text-[10px]">QR</span>
                 </button>
-                <button id="save-btn"
-                        class="icon-box flex flex-col items-center justify-center p-3 rounded-xl text-white text-center cursor-pointer">
+                <button id="save-btn" class="icon-box flex flex-col items-center justify-center p-3 rounded-xl text-white text-center cursor-pointer">
                     <i class="fas fa-address-card text-2xl mb-1 text-pink-400"></i>
                     <span class="text-[10px]">Guardar</span>
                 </button>
-                <button id="install-btn"
-                        class="icon-box flex flex-col items-center justify-center p-3 rounded-xl text-white text-center cursor-pointer">
+                <button id="install-btn" class="icon-box flex flex-col items-center justify-center p-3 rounded-xl text-white text-center cursor-pointer">
                     <i class="fas fa-mobile-screen-button text-2xl mb-1 text-indigo-400"></i>
                     <span class="text-[10px]">Instalar</span>
                 </button>
             </div>
-            <div class="mt-3 text-center">
-                <button id="video-btn"
-                        class="icon-box inline-flex items-center gap-2 px-4 py-2 rounded-full text-white text-sm cursor-pointer">
-                    <i class="fas fa-play"></i> Ver Video Promocional
+            
+            <div class="mt-4 text-center">
+                <button id="video-btn" class="icon-box inline-flex items-center gap-2 px-4 py-2 rounded-full text-white text-sm cursor-pointer">
+                    <i class="fas fa-play text-red-400"></i> Ver Video Promocional
                 </button>
             </div>
         </div>
 
         <div class="border-t border-white/10 px-6 py-4 text-center">
-            <p class="text-slate-400 text-xs">© 2025 KONFÍO ZINC · Transformamos contactos en experiencias</p>
+            <p class="text-slate-400 text-xs">© 2026 KONFÍO ZINC · Transformamos contactos en experiencias</p>
         </div>
 
-        <a href="https://wa.me/573206411340?text=Hola%20Darwin%2C%20quiero%20mi%20tarjeta%20digital%20personalizada"
-           target="_blank"
-           class="whatsapp-float"
-           aria-label="WhatsApp">
+        <a href="https://wa.me/573206411340?text=Hola%20Darwin%2C%20quiero%20mi%20tarjeta%20digital%20personalizada" target="_blank" class="whatsapp-float" aria-label="WhatsApp">
             <i class="fab fa-whatsapp"></i>
         </a>
         <div class="whatsapp-pulse-ring"></div>
     </div>
 
-    <!-- ==================== MODALES ==================== -->
-    <div id="portfolio-modal" class="modal-overlay fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 opacity-0 invisible" style="display:none;">
-        <div class="modal-content glass-modal rounded-2xl w-full max-w-lg max-h-[90vh] overflow-hidden flex flex-col">
-            <div class="p-4 border-b flex justify-between items-center bg-gradient-to-r from-sky-500 to-indigo-600 text-white rounded-t-2xl">
-                <h3 class="font-bold text-lg"><i class="fas fa-images mr-2"></i>Nuestro Portafolio</h3>
+
+    <div id="agenda-modal" class="modal-overlay fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 opacity-0 invisible" style="display:none;">
+        <div class="modal-content glass-modal rounded-2xl w-full max-w-md max-h-[95vh] overflow-hidden flex flex-col">
+            <div class="p-4 border-b flex justify-between items-center bg-gradient-to-r from-orange-500 to-amber-600 text-white rounded-t-2xl">
+                <h3 class="font-bold text-lg"><i class="fas fa-calendar-alt mr-2"></i>Agenda tu Cita</h3>
                 <button class="modal-close text-white hover:text-slate-200 text-2xl leading-none">&times;</button>
             </div>
-            <div class="p-4 overflow-y-auto flex-grow">
-                <p class="text-slate-600 text-sm mb-4 text-center">Modelos de Tarjetas. Toca para ver ampliada.</p>
-                <div class="carousel-container relative">
-                    <div class="carousel-track" id="carousel-track"></div>
-                    <button id="prev-slide" class="absolute top-1/2 left-2 -translate-y-1/2 bg-white/90 rounded-full w-9 h-9 flex items-center justify-center shadow hover:bg-white z-10"><i class="fas fa-chevron-left text-slate-700"></i></button>
-                    <button id="next-slide" class="absolute top-1/2 right-2 -translate-y-1/2 bg-white/90 rounded-full w-9 h-9 flex items-center justify-center shadow hover:bg-white z-10"><i class="fas fa-chevron-right text-slate-700"></i></button>
-                </div>
-                <div id="carousel-dots" class="flex justify-center gap-2 mt-4"></div>
-                <div class="text-center mt-4">
-                    <button id="view-full-image" class="text-sm text-indigo-600 hover:underline">Ver imagen completa</button>
-                </div>
-            </div>
+            <div id="agenda-content" class="p-4 overflow-y-auto flex-grow"></div>
         </div>
-    </div>
-
-    <div id="full-image-modal" class="modal-overlay fixed inset-0 bg-black/90 flex items-center justify-center z-[60] opacity-0 invisible" onclick="this.classList.remove('active')" style="display:none;">
-        <img id="full-image" src="" class="max-w-full max-h-full rounded-lg shadow-2xl" alt="Vista ampliada">
     </div>
 
     <div id="services-modal" class="modal-overlay fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 opacity-0 invisible" style="display:none;">
@@ -372,6 +342,31 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div id="portfolio-modal" class="modal-overlay fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 opacity-0 invisible" style="display:none;">
+        <div class="modal-content glass-modal rounded-2xl w-full max-w-lg max-h-[90vh] overflow-hidden flex flex-col">
+            <div class="p-4 border-b flex justify-between items-center bg-gradient-to-r from-sky-500 to-indigo-600 text-white rounded-t-2xl">
+                <h3 class="font-bold text-lg"><i class="fas fa-images mr-2"></i>Nuestro Portafolio</h3>
+                <button class="modal-close text-white hover:text-slate-200 text-2xl leading-none">&times;</button>
+            </div>
+            <div class="p-4 overflow-y-auto flex-grow">
+                <p class="text-slate-600 text-sm mb-4 text-center">Modelos de Tarjetas. Toca para ver ampliada.</p>
+                <div class="carousel-container relative">
+                    <div class="carousel-track" id="carousel-track"></div>
+                    <button id="prev-slide" class="absolute top-1/2 left-2 -translate-y-1/2 bg-white/90 rounded-full w-9 h-9 flex items-center justify-center shadow hover:bg-white z-10"><i class="fas fa-chevron-left text-slate-700"></i></button>
+                    <button id="next-slide" class="absolute top-1/2 right-2 -translate-y-1/2 bg-white/90 rounded-full w-9 h-9 flex items-center justify-center shadow hover:bg-white z-10"><i class="fas fa-chevron-right text-slate-700"></i></button>
+                </div>
+                <div id="carousel-dots" class="flex justify-center gap-2 mt-4"></div>
+                <div class="text-center mt-4">
+                    <button id="view-full-image" class="text-sm text-indigo-600 hover:underline">Ver imagen completa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="full-image-modal" class="modal-overlay fixed inset-0 bg-black/90 flex items-center justify-center z-[60] opacity-0 invisible" onclick="this.classList.remove('active')" style="display:none;">
+        <img id="full-image" src="" class="max-w-full max-h-full rounded-lg shadow-2xl" alt="Vista ampliada">
     </div>
 
     <div id="qr-modal" class="modal-overlay fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 opacity-0 invisible" style="display:none;">
@@ -413,16 +408,6 @@
         </div>
     </div>
 
-    <div id="agenda-modal" class="modal-overlay fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 opacity-0 invisible" style="display:none;">
-        <div class="modal-content glass-modal rounded-2xl w-full max-w-md max-h-[95vh] overflow-hidden flex flex-col">
-            <div class="p-4 border-b flex justify-between items-center bg-gradient-to-r from-orange-500 to-amber-600 text-white rounded-t-2xl">
-                <h3 class="font-bold text-lg"><i class="fas fa-calendar-alt mr-2"></i>Agenda tu Cita</h3>
-                <button class="modal-close text-white hover:text-slate-200 text-2xl leading-none">&times;</button>
-            </div>
-            <div id="agenda-content" class="p-4 overflow-y-auto flex-grow"></div>
-        </div>
-    </div>
-
     <div id="video-modal" class="modal-overlay fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 opacity-0 invisible" style="display:none;">
         <div class="modal-content glass-modal rounded-2xl w-full max-w-2xl overflow-hidden">
             <div class="p-4 border-b flex justify-between items-center bg-gradient-to-r from-sky-500 to-indigo-600 text-white">
@@ -430,23 +415,35 @@
                 <button class="modal-close text-white hover:text-slate-200 text-2xl leading-none">&times;</button>
             </div>
             <div class="relative aspect-video bg-slate-800">
-                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/ndRhGLFUlLA"
-                        title="Video KONFÍO ZINC" frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen class="absolute inset-0 w-full h-full"></iframe>
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/ndRhGLFUlLA" title="Video KONFÍO ZINC" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="absolute inset-0 w-full h-full"></iframe>
             </div>
         </div>
     </div>
 
+
     <script>
         (function() {
+            // Core Application Configuration
             const TU_WHATSAPP = '573206411340';
+            
+            const portfolioImages = [
+                { src: 'https://i.postimg.cc/BvWnVsXt/Whats-App-Image-2026-05-24-at-07-24-13-(1).jpg', title: 'Dra. Isabela Rojas', sub: 'Odontóloga General y Estética Dental' },
+                { src: 'https://i.postimg.cc/7LgZvc2g/Whats-App-Image-2026-05-24-at-07-23-19.jpg', title: 'Dra. Sofía Rodríguez', sub: 'Nutricionista Profesional' },
+                { src: 'https://i.postimg.cc/VNykV1dJ/Whats-App-Image-2026-05-24-at-07-24-13-(3).jpg', title: 'Dra. Ana Pérez', sub: 'Nutricionista Funcional' },
+                { src: 'https://i.postimg.cc/XvMYz3pZ/Whats-App-Image-2026-05-24-at-07-24-13-(4).jpg', title: 'Carolina Carelli', sub: 'Decoradora de Fiestas' },
+                { src: 'https://i.postimg.cc/xdr14Ycb/Whats-App-Image-2026-05-24-at-07-24-13-(5).jpg', title: 'Regina Pereira', sub: 'Nails y Academy' },
+                { src: 'https://i.postimg.cc/bvQwXMtk/Whats-App-Image-2026-05-24-at-07-23-19-(3).jpg', title: 'Juan Pérez', sub: 'Diseñador Gráfico' },
+                { src: 'https://i.postimg.cc/0NgyBxbD/Whats-App-Image-2026-05-24-at-07-24-13-(7).jpg', title: 'Dulce Delicia', sub: 'Pastelería Artesanal' },
+                { src: 'https://i.postimg.cc/Pqm5GcwZ/Whats-App-Image-2026-05-24-at-07-23-19-(2).jpg', title: 'Dra. Amanda Méndez', sub: 'Odontopediatría · Ortodoncia · Estética Dental' }
+            ];
 
+            // 1. Modal Handler Framework
             function setupModal(openBtnId, modalId) {
                 const openBtn = document.getElementById(openBtnId);
                 const modal = document.getElementById(modalId);
                 if (!openBtn || !modal) return;
                 const closeBtn = modal.querySelector('.modal-close');
+                
                 const open = () => {
                     modal.style.display = 'flex';
                     setTimeout(() => modal.classList.add('active'), 10);
@@ -462,29 +459,22 @@
                 closeBtn.addEventListener('click', close);
                 modal.addEventListener('click', e => { if (e.target === modal) close(); });
             }
-            setupModal('portfolio-btn', 'portfolio-modal');
+            
+            // Binding modals sequentially as seen in UX grid
+            setupModal('agenda-btn', 'agenda-modal');
             setupModal('services-btn', 'services-modal');
+            setupModal('portfolio-btn', 'portfolio-modal');
             setupModal('qr-btn', 'qr-modal');
             setupModal('install-btn', 'install-modal');
-            setupModal('agenda-btn', 'agenda-modal');
             setupModal('video-btn', 'video-modal');
 
-            const portfolioImages = [
-                { src: 'https://i.postimg.cc/BvWnVsXt/Whats-App-Image-2026-05-24-at-07-24-13-(1).jpg', title: 'Dra. Isabela Rojas', sub: 'Odontóloga General y Estética Dental' },
-                { src: 'https://i.postimg.cc/7LgZvc2g/Whats-App-Image-2026-05-24-at-07-23-19.jpg', title: 'Dra. Sofía Rodríguez', sub: 'Nutricionista Profesional' },
-                { src: 'https://i.postimg.cc/VNykV1dJ/Whats-App-Image-2026-05-24-at-07-24-13-(3).jpg', title: 'Dra. Ana Pérez', sub: 'Nutricionista Funcional' },
-                { src: 'https://i.postimg.cc/XvMYz3pZ/Whats-App-Image-2026-05-24-at-07-24-13-(4).jpg', title: 'Carolina Carelli', sub: 'Decoradora de Fiestas' },
-                { src: 'https://i.postimg.cc/xdr14Ycb/Whats-App-Image-2026-05-24-at-07-24-13-(5).jpg', title: 'Regina Pereira', sub: 'Nails y Academy' },
-                { src: 'https://i.postimg.cc/bvQwXMtk/Whats-App-Image-2026-05-24-at-07-23-19-(3).jpg', title: 'Juan Pérez', sub: 'Diseñador Gráfico' },
-                { src: 'https://i.postimg.cc/0NgyBxbD/Whats-App-Image-2026-05-24-at-07-24-13-(7).jpg', title: 'Dulce Delicia', sub: 'Pastelería Artesanal' },
-                { src: 'https://i.postimg.cc/Pqm5GcwZ/Whats-App-Image-2026-05-24-at-07-23-19-(2).jpg', title: 'Dra. Amanda Méndez', sub: 'Odontopediatría · Ortodoncia · Estética Dental' }
-            ];
-
+            // 2. Portfolio Carousel Plugin Logic
             const track = document.getElementById('carousel-track');
             const dotsContainer = document.getElementById('carousel-dots');
             const prevBtn = document.getElementById('prev-slide');
             const nextBtn = document.getElementById('next-slide');
             let current = 0;
+
             function buildCarousel() {
                 track.innerHTML = portfolioImages.map(img => `
                     <div class="carousel-slide">
@@ -503,14 +493,17 @@
                 });
                 update();
             }
+            
             function update() {
                 track.style.transform = `translateX(-${current * 100}%)`;
                 dotsContainer.querySelectorAll('.carousel-dot').forEach((d, i) => d.classList.toggle('active', i === current));
             }
+            
             nextBtn.addEventListener('click', () => { current = (current + 1) % portfolioImages.length; update(); });
             prevBtn.addEventListener('click', () => { current = (current - 1 + portfolioImages.length) % portfolioImages.length; update(); });
             buildCarousel();
 
+            // Lightbox functionality
             document.getElementById('view-full-image').addEventListener('click', () => {
                 const fullModal = document.getElementById('full-image-modal');
                 const fullImg = document.getElementById('full-image');
@@ -518,13 +511,8 @@
                 fullModal.style.display = 'flex';
                 setTimeout(() => fullModal.classList.add('active'), 10);
             });
-            document.getElementById('full-image-modal').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    this.classList.remove('active');
-                    setTimeout(() => { this.style.display = 'none'; }, 300);
-                }
-            });
 
+            // 3. QR Generation and Web Share Engine
             new QRCode(document.getElementById('qrcode-container'), {
                 text: window.location.href,
                 width: 150, height: 150,
@@ -537,6 +525,7 @@
                 shareBtn.addEventListener('click', () => navigator.share({ title: 'KONFÍO ZINC', text: 'Tarjeta digital inteligente', url: window.location.href }));
             }
 
+            // 4. vCard Download / Save Contact Feature
             document.getElementById('save-btn').addEventListener('click', () => {
                 const vCard = `BEGIN:VCARD\nVERSION:3.0\nFN:Darwin Montalvo\nORG:KONFÍO ZINC\nTITLE:Creador de Tarjetas Digitales\nTEL;TYPE=CELL:+57 320 641 1340\nEMAIL:confiotv@gmail.com\nURL:${window.location.href}\nEND:VCARD`;
                 const blob = new Blob([vCard], { type: 'text/vcard;charset=utf-8' });
@@ -546,6 +535,7 @@
                 document.body.appendChild(a); a.click(); document.body.removeChild(a);
             });
 
+            // 5. Intelligent Calendar & Dynamic Scheduler Engine
             let currentMonth, currentYear, selectedDate, selectedTime;
 
             function resetAgenda() {
@@ -561,7 +551,9 @@
                 const today = new Date(); today.setHours(0,0,0,0);
                 const monthNames = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
                 const dayNames = ["Do","Lu","Ma","Mi","Ju","Vi","Sá"];
+                
                 let html = `<div class="flex justify-between mb-4"><button id="prevMonth" class="p-2 hover:bg-gray-100 rounded">&larr;</button><h4 class="font-semibold text-lg text-slate-800">${monthNames[currentMonth]} ${currentYear}</h4><button id="nextMonth" class="p-2 hover:bg-gray-100 rounded">&rarr;</button></div><div class="grid grid-cols-7 gap-1 text-center text-xs text-slate-500 font-semibold mb-2">${dayNames.map(d=>`<div>${d}</div>`).join('')}</div><div class="grid grid-cols-7 gap-1 text-center">`;
+                
                 for (let i=0; i<firstDay; i++) html += '<div></div>';
                 for (let d=1; d<=daysInMonth; d++) {
                     const date = new Date(currentYear, currentMonth, d);
@@ -593,12 +585,15 @@
                 if (dow>=1 && dow<=5) times = ['09:00','09:30','10:00','10:30','11:00','11:30','14:00','14:30','15:00','15:30','16:00','16:30'];
                 else if (dow===6) times = ['09:00','09:30','10:00','10:30','11:00','11:30'];
                 const dateStr = selectedDate.toLocaleDateString('es-ES', { weekday:'long', day:'numeric', month:'long' });
+                
                 let html = `<button id="backCal" class="text-sm text-orange-600 hover:underline font-semibold mb-3">&larr; Volver</button><p class="text-slate-700 font-semibold mb-3">${dateStr}</p><div class="grid grid-cols-3 gap-2">`;
                 times.forEach(t => { html += `<div class="time-slot p-2 rounded-lg text-center text-sm cursor-pointer" data-time="${t}">${t}</div>`; });
                 html += `</div><button id="confirmBtn" class="w-full mt-6 py-3 bg-orange-500 text-white font-bold rounded-lg hover:bg-orange-600 disabled:bg-gray-400 disabled:cursor-not-allowed" disabled>Continuar</button>`;
+                
                 document.getElementById('agenda-content').innerHTML = html;
                 document.getElementById('backCal').addEventListener('click', resetAgenda);
                 const confirmBtn = document.getElementById('confirmBtn');
+                
                 document.querySelectorAll('.time-slot').forEach(slot => {
                     slot.addEventListener('click', function() {
                         document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
@@ -634,7 +629,7 @@
                     const mensaje = document.getElementById('mensaje').value.trim();
                     if (!nombre || !email) { alert('Por favor completa al menos tu nombre y correo electrónico.'); return; }
 
-                    const textoWhatsApp = `✅ *NUEVA CITA AGENDADA*%0A%0A📅 *Fecha:* ${dateStr}%0A🕐 *Hora:* ${selectedTime}%0A👤 *Nombre:* ${nombre}%0A📧 *Email:* ${email}%0A🎯 *Motivo:* ${motivo}%0A💬 *Mensaje:* ${mensaje || 'No especificado'}`;
+                    const textoWhatsApp = `✅ *NUEVA CITA AGENDADA*%0A%0A📅 *Fecha:* ${dateStr}%0AClub *Hora:* ${selectedTime}%0A👤 *Nombre:* ${nombre}%0A📧 *Email:* ${email}%0A🎯 *Motivo:* ${motivo}%0A💬 *Mensaje:* ${mensaje || 'No especificado'}`;
 
                     document.getElementById('agenda-content').innerHTML = `
                         <div class="text-center py-8">
